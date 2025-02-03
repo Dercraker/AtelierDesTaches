@@ -7,13 +7,13 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
 
     // NextAuth
-    GITHUB_ID: z.string().optional(),
-    GITHUB_SECRET: z.string().optional(),
+    AUTH_GITHUB_ID: z.string().optional(),
+    AUTH_GITHUB_SECRET: z.string().optional(),
 
-    GOOGLE_ID: z.string().optional(),
-    GOOGLE_SECRET: z.string().optional(),
+    AUTH_GOOGLE_ID: z.string().optional(),
+    AUTH_GOOGLE_SECRET: z.string().optional(),
 
-    NEXTAUTH_SECRET: z.string(),
+    AUTH_SECRET: z.string(),
 
     // Resend
     RESEND_API_KEY: z.string().min(1),
