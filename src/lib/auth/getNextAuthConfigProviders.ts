@@ -1,12 +1,11 @@
-import { logger } from "@/lib/logger";
 import { SiteConfig } from "@/SiteConfig";
-import MagicLinkMail from "@email/magic-link-email.email";
+// import MagicLinkMail from "@email/magic-link-email.email";
+import { env } from "@/lib/env/server";
 import type { NextAuthConfig } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import ResendProvider from "next-auth/providers/resend";
-import { env } from "@/lib/env/server";
-import { sendEmail } from "@/lib/mail/sendEmail";
+// import { sendEmail } from "@/lib/mail/sendEmail";
 import { getCredentialsProvider } from "./credentials-provider";
 
 type Providers = NonNullable<NextAuthConfig["providers"]>;
@@ -16,18 +15,18 @@ export const getNextAuthConfigProviders = (): Providers => {
     ResendProvider({
       apiKey: env.RESEND_API_KEY,
       sendVerificationRequest: async ({ identifier: email, url }) => {
-        const result = await sendEmail({
-          to: email,
-          subject: `Sign in to ${SiteConfig.domain}`,
-          react: MagicLinkMail({
-            url,
-          }),
-        });
-
-        if (result.error) {
-          logger.error("Auth Resend Provider Error", result.error);
-          throw new Error(`Failed to send email: ${result.error}`);
-        }
+        //TODO: RESEND
+        // const result = await sendEmail({
+        //   to: email,
+        //   subject: `Sign in to ${SiteConfig.domain}`,
+        //   react: MagicLinkMail({
+        //     url,
+        //   }),
+        // });
+        // if (result.error) {
+        //   logger.error("Auth Resend Provider Error", result.error);
+        //   throw new Error(`Failed to send email: ${result.error}`);
+        // }
       },
     }),
   ];
