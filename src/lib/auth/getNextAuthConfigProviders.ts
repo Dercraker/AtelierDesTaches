@@ -6,6 +6,8 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import ResendProvider from "next-auth/providers/resend";
 // import { sendEmail } from "@/lib/mail/sendEmail";
+import { logger } from "@/lib/logger";
+import { sendEmail } from "@/lib/mail/sendEmail";
 import { getCredentialsProvider } from "./credentials-provider";
 
 type Providers = NonNullable<NextAuthConfig["providers"]>;
@@ -15,18 +17,18 @@ export const getNextAuthConfigProviders = (): Providers => {
     ResendProvider({
       apiKey: env.RESEND_API_KEY,
       sendVerificationRequest: async ({ identifier: email, url }) => {
-        //TODO: RESEND
-        // const result = await sendEmail({
-        //   to: email,
-        //   subject: `Sign in to ${SiteConfig.domain}`,
-        //   react: MagicLinkMail({
-        //     url,
-        //   }),
-        // });
-        // if (result.error) {
-        //   logger.error("Auth Resend Provider Error", result.error);
-        //   throw new Error(`Failed to send email: ${result.error}`);
-        // }
+        const result = await sendEmail({
+          to: email,
+          subject: `Sign in to ${SiteConfig.domain}`,
+          //TODO: MargicLink Mail
+          // react: MagicLinkMail({
+          //   url,
+          // }),
+        });
+        if (result.error) {
+          logger.error("Auth Resend Provider Error", result.error);
+          throw new Error(`Failed to send email: ${result.error}`);
+        }
       },
     }),
   ];

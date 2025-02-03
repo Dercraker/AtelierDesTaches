@@ -1,4 +1,5 @@
 import { env } from "@/lib/env/server";
+import { resend } from "@/lib/mail/resend";
 import type { User } from "next-auth";
 
 export const setupResendCustomer = async (user: User) => {

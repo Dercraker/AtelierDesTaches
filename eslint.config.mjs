@@ -137,6 +137,7 @@ const eslintConfig = [
       "*/**.js",
       "*.js",
       "zod",
+      ".prisma",
       "*/**.mjs",
       "vitest.config.ts",
       "next-env.d.ts",
