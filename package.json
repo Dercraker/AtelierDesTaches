@@ -1,12 +1,19 @@
 {
-  "name": "my-project",
+  "name": "atelier-des-taches",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "patch": "pnpm version patch --force --no-git-tag-version",
+    "minor": "pnpm version minor --force --no-git-tag-version",
+    "prerelease": "pnpm version prerelease --force --no-git-tag-version",
+    "major": "pnpm version major --force --no-git-tag-version",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "ts": "tsc --noEmit",
+    "postinstall": "prisma generate",
+    "clean": "next lint --fix && tsc --noEmit && prettier --write .",
+    "knip": "knip"
   },
   "dependencies": {
     "react": "^19.0.0",
