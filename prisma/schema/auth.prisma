@@ -9,13 +9,16 @@ model User {
   // For the Credentials provider
   passwordHash    String?
 
-  sessions      Session[]
-  accounts      Account[]
-  Authenticator Authenticator[]
+  sessions        Session[]
+  accounts        Account[]
+  Authenticator   Authenticator[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  deletedAt DateTime? 
+  deletedAt DateTime?
+
+  //Add data here
+  todos Todo[]
 }
 
 model Account {

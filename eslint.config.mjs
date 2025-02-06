@@ -146,6 +146,7 @@ export default [
       "next.config.js",
       "eslint.config.mjs",
       "**/worker.js",
+      "**/types/prisma/**.ts",
     ],
   },
 ];

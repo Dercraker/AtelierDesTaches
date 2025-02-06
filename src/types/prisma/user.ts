@@ -3,11 +3,13 @@ import type {
   CompleteSession,
   CompleteAccount,
   CompleteAuthenticator,
+  CompleteTodo,
 } from "./index";
 import {
   RelatedSessionModel,
   RelatedAccountModel,
   RelatedAuthenticatorModel,
+  RelatedTodoModel,
 } from "./index";
 
 export const UserModel = z.object({
@@ -27,6 +29,7 @@ export type CompleteUser = {
   sessions: CompleteSession[];
   accounts: CompleteAccount[];
   Authenticator: CompleteAuthenticator[];
+  todos: CompleteTodo[];
 } & z.infer<typeof UserModel>;
 
 /**
@@ -39,5 +42,6 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
     sessions: RelatedSessionModel.array(),
     accounts: RelatedAccountModel.array(),
     Authenticator: RelatedAuthenticatorModel.array(),
+    todos: RelatedTodoModel.array(),
   }),
 );

@@ -1,6 +1,6 @@
 {
   "name": "atelier-des-taches",
-  "version": "0.1.2",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -12,6 +12,7 @@
     "start": "next start",
     "ts": "tsc --noEmit",
     "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "clean": "next lint --fix && tsc --noEmit && prettier --write .",
     "knip": "knip"
   },
@@ -39,6 +40,7 @@
     "nanoid": "^5.0.9",
     "next": "15.1.6",
     "next-auth": "5.0.0-beta.25",
+    "next-safe-action": "^7.10.3",
     "nuqs": "^2.3.2",
     "prettier": "^3.4.2",
     "react": "^19.0.0",
