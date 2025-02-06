@@ -1,6 +1,5 @@
 import * as z from "zod";
-import type { CompleteUser } from "./index";
-import { RelatedUserModel } from "./index";
+import { CompleteUser, RelatedUserModel } from "./index";
 
 export const AuthenticatorModel = z.object({
   credentialID: z.string(),
@@ -13,9 +12,10 @@ export const AuthenticatorModel = z.object({
   transports: z.string().nullish(),
 });
 
-export type CompleteAuthenticator = {
+export interface CompleteAuthenticator
+  extends z.infer<typeof AuthenticatorModel> {
   user: CompleteUser;
-} & z.infer<typeof AuthenticatorModel>;
+}
 
 /**
  * RelatedAuthenticatorModel contains all relations on your model in addition to the scalars

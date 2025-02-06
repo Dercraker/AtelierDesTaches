@@ -1,7 +1,6 @@
 import * as z from "zod";
 import { Status } from "@prisma/client";
-import type { CompleteUser } from "./index";
-import { RelatedUserModel } from "./index";
+import { CompleteUser, RelatedUserModel } from "./index";
 
 export const TodoModel = z.object({
   id: z.string(),
@@ -16,9 +15,9 @@ export const TodoModel = z.object({
   ownerId: z.string(),
 });
 
-export type CompleteTodo = {
+export interface CompleteTodo extends z.infer<typeof TodoModel> {
   owner: CompleteUser;
-} & z.infer<typeof TodoModel>;
+}
 
 /**
  * RelatedTodoModel contains all relations on your model in addition to the scalars
