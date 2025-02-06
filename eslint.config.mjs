@@ -1,16 +1,15 @@
+import { fixupConfigRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import pluginJs from "@eslint/js";
+import hooksPlugin from "eslint-plugin-react-hooks";
+import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
+import tailwind from "eslint-plugin-tailwindcss";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const compat = new FlatCompat();
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+export default [
   { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
   { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
   { languageOptions: { globals: globals.browser } },
@@ -103,7 +102,6 @@ const eslintConfig = [
       "@typescript-eslint/no-unnecessary-type-arguments": "error",
       "@typescript-eslint/no-unnecessary-type-constraint": "error",
       "@typescript-eslint/prefer-includes": "error",
-      "@typescript-eslint/prefer-nullish-coalescing": "error",
       "@typescript-eslint/prefer-optional-chain": "error",
       "@typescript-eslint/prefer-readonly": "error",
       "@typescript-eslint/prefer-string-starts-ends-with": "error",
@@ -137,7 +135,6 @@ const eslintConfig = [
       "*/**.js",
       "*.js",
       "zod",
-      ".prisma",
       "*/**.mjs",
       "vitest.config.ts",
       "next-env.d.ts",
@@ -149,9 +146,7 @@ const eslintConfig = [
       "next.config.js",
       "eslint.config.mjs",
       "**/worker.js",
+      "**/types/prisma/**.ts",
     ],
   },
 ];
-
-export default eslintConfig;
-
