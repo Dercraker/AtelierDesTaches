@@ -13,6 +13,7 @@ export const GetTodoByOwnerQuery = async ({
 }: GetTodoByOwnerQueryProps) => {
   const todo = await prisma.todo.findUnique({
     where: {
+      deletedAt: null,
       ...where,
       ownerId,
     },
