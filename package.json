@@ -1,6 +1,6 @@
 {
   "name": "atelier-des-taches",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -12,6 +12,7 @@
     "start": "next start",
     "ts": "tsc --noEmit",
     "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "clean": "next lint --fix && tsc --noEmit && prettier --write .",
     "knip": "knip"
   },
