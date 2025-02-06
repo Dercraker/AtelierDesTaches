@@ -1,5 +1,14 @@
-import * as z from "zod"
-import { CompleteSession, RelatedSessionModel, CompleteAccount, RelatedAccountModel, CompleteAuthenticator, RelatedAuthenticatorModel } from "./index"
+import * as z from "zod";
+import {
+  CompleteSession,
+  RelatedSessionModel,
+  CompleteAccount,
+  RelatedAccountModel,
+  CompleteAuthenticator,
+  RelatedAuthenticatorModel,
+  CompleteTodo,
+  RelatedTodoModel,
+} from "./index";
 
 export const UserModel = z.object({
   id: z.string(),
@@ -12,12 +21,13 @@ export const UserModel = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   deletedAt: z.date().nullish(),
-})
+});
 
 export interface CompleteUser extends z.infer<typeof UserModel> {
-  sessions: CompleteSession[]
-  accounts: CompleteAccount[]
-  Authenticator: CompleteAuthenticator[]
+  sessions: CompleteSession[];
+  accounts: CompleteAccount[];
+  Authenticator: CompleteAuthenticator[];
+  todos: CompleteTodo[];
 }
 
 /**
@@ -25,8 +35,11 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() => UserModel.extend({
-  sessions: RelatedSessionModel.array(),
-  accounts: RelatedAccountModel.array(),
-  Authenticator: RelatedAuthenticatorModel.array(),
-}))
+export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
+  UserModel.extend({
+    sessions: RelatedSessionModel.array(),
+    accounts: RelatedAccountModel.array(),
+    Authenticator: RelatedAuthenticatorModel.array(),
+    todos: RelatedTodoModel.array(),
+  }),
+);
