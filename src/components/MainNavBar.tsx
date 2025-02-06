@@ -12,6 +12,7 @@ import { styled } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import Image from "next/image";
 import { useState } from "react";
 
 const pages = ["Products", "Pricing", "Blog"];
@@ -69,8 +70,8 @@ export default function MainNavBar() {
   return (
     <AppBar position="sticky" style={{ backgroundColor: "#ea642a" }}>
       <Toolbar className="flex items-center">
-        <img
-          src="logo_atelier_des_taches_blanc.svg"
+        <Image
+          src="/logo_atelier_des_taches_blanc.svg"
           alt="logo atelier des tâches"
           width={50}
           height={40}
