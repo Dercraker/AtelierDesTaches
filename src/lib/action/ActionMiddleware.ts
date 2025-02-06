@@ -1,5 +1,5 @@
 import { GetCurrentTodo } from "@/utils/todo/getTodo";
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { createMiddleware } from "next-safe-action";
 import { auth } from "../auth/helper";
 import { ActionError } from "./SafeAction";
@@ -46,8 +46,8 @@ export const TodoOwnerMiddleware = createMiddleware().define(
       });
     } catch {
       throw new ActionError(
-        "You need to be owner of this todo, to take this action"
+        "You need to be owner of this todo, to take this action",
       );
     }
-  }
+  },
 );

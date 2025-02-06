@@ -10,7 +10,7 @@ import type { z } from "zod";
  * @returns A boolean indicating if the action is successful
  */
 export const isActionSuccessful = <T extends z.ZodType, Data>(
-  action?: SafeActionResult<string, T, readonly [], any, any, Data>
+  action?: SafeActionResult<string, T, readonly [], any, any, Data>,
 ): action is {
   data: Data;
   serverError: undefined;
@@ -40,7 +40,7 @@ export const isActionSuccessful = <T extends z.ZodType, Data>(
 export const resolveActionResult = async <T extends z.ZodType, Data>(
   action: Promise<
     SafeActionResult<string, T, readonly [], any, any, Data> | undefined
-  >
+  >,
 ): Promise<Data> => {
   return new Promise((resolve, reject) => {
     action
