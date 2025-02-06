@@ -40,7 +40,7 @@ export const getCredentialsProvider = () => {
       // Add logic here to look up the user from the credentials supplied
       const passwordHash = hashStringWithSalt(
         String(credentials.password),
-        env.AUTH_SECRET
+        env.AUTH_SECRET,
       );
 
       const user = await prisma.user.findFirst({
