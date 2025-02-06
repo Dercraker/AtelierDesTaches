@@ -1,6 +1,7 @@
 "use server";
 
 import { authAction } from "@/lib/action/SafeAction";
+import { TodoModel } from "@/types/prisma";
 import { generateSlug } from "@/utils/format/id";
 import { z } from "zod";
 import { CreateTodoQuery } from "./CreateTodo.query";
@@ -14,7 +15,7 @@ const CreateTodoSchema = z.object({
 export const CreateTodoAction = authAction
   .schema(CreateTodoSchema)
   .action(async ({ parsedInput: { title, description, dueDate }, ctx }) => {
-    await CreateTodoQuery({
+    const todo = await CreateTodoQuery({
       data: {
         title,
         slug: generateSlug(title),
@@ -27,4 +28,6 @@ export const CreateTodoAction = authAction
         },
       },
     });
+
+    TodoModel.parse(todo);
   });

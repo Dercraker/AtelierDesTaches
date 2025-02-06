@@ -1,3 +1,4 @@
+import { GetCurrentTodo } from "@/utils/todo/getTodo";
 import { User } from "@prisma/client";
 import { createMiddleware } from "next-safe-action";
 import { auth } from "../auth/helper";
@@ -26,3 +27,27 @@ export const AuthMiddleware = createMiddleware().define(async ({ next }) => {
     },
   });
 });
+
+/**
+ * Middleware check if current Auth user is owner of current Todo with slug in URL
+ * @requires AuthMiddleware
+ */
+export const TodoOwnerMiddleware = createMiddleware().define(
+  async ({ next }) => {
+    try {
+      const todo = await GetCurrentTodo();
+
+      if (!todo) throw new ActionError();
+
+      return next({
+        ctx: {
+          todo,
+        },
+      });
+    } catch {
+      throw new ActionError(
+        "You need to be owner of this todo, to take this action"
+      );
+    }
+  }
+);

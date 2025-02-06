@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { TodoModel } from "@/types/prisma";
 import type { Prisma, Status } from "@prisma/client";
 
 type ChangeTodoStatusQueryProps = {
@@ -19,5 +20,5 @@ export const ChangeTodoStatusQuery = async ({
     },
   });
 
-  return todo;
+  return TodoModel.parse(todo);
 };

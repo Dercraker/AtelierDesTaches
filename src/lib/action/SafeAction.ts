@@ -1,7 +1,7 @@
 import { createSafeActionClient } from "next-safe-action";
 import { AuthError } from "../auth/helper";
 import { logger } from "../logger";
-import { AuthMiddleware } from "./ActionMiddleware";
+import { AuthMiddleware, TodoOwnerMiddleware } from "./ActionMiddleware";
 
 export class ActionError extends Error {}
 
@@ -30,3 +30,9 @@ export const action = createSafeActionClient({
 export const authAction = createSafeActionClient({
   handleServerError,
 }).use(AuthMiddleware);
+
+export const todoOwnerAction = createSafeActionClient({
+  handleServerError,
+})
+  .use(AuthMiddleware)
+  .use(TodoOwnerMiddleware);
