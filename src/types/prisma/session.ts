@@ -1,6 +1,5 @@
 import * as z from "zod";
-import type { CompleteUser } from "./index";
-import { RelatedUserModel } from "./index";
+import { CompleteUser, RelatedUserModel } from "./index";
 
 export const SessionModel = z.object({
   sessionToken: z.string(),
@@ -10,9 +9,9 @@ export const SessionModel = z.object({
   updatedAt: z.date(),
 });
 
-export type CompleteSession = {
+export interface CompleteSession extends z.infer<typeof SessionModel> {
   user: CompleteUser;
-} & z.infer<typeof SessionModel>;
+}
 
 /**
  * RelatedSessionModel contains all relations on your model in addition to the scalars

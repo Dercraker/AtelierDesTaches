@@ -1,14 +1,12 @@
 import * as z from "zod";
-import type {
-  CompleteSession,
-  CompleteAccount,
-  CompleteAuthenticator,
-  CompleteTodo,
-} from "./index";
 import {
+  CompleteSession,
   RelatedSessionModel,
+  CompleteAccount,
   RelatedAccountModel,
+  CompleteAuthenticator,
   RelatedAuthenticatorModel,
+  CompleteTodo,
   RelatedTodoModel,
 } from "./index";
 
@@ -25,12 +23,12 @@ export const UserModel = z.object({
   deletedAt: z.date().nullish(),
 });
 
-export type CompleteUser = {
+export interface CompleteUser extends z.infer<typeof UserModel> {
   sessions: CompleteSession[];
   accounts: CompleteAccount[];
   Authenticator: CompleteAuthenticator[];
   todos: CompleteTodo[];
-} & z.infer<typeof UserModel>;
+}
 
 /**
  * RelatedUserModel contains all relations on your model in addition to the scalars

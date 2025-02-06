@@ -1,30 +1,19 @@
-
 import Image from "next/image";
-import HomeCardComponent from "@/components/HomeCardComponent"
+import HomeCardComponent from "@/components/HomeCardComponent";
 import MainNavBar from "@/components/MainNavBar";
 
-
 export default function Home() {
-
   const cards = [];
 
   for (let i = 0; i < 20; i++) {
-    cards.push(
-      
-        <HomeCardComponent key={i}
-        />
-    );
+    cards.push(<HomeCardComponent key={i} />);
   }
 
   return (
     <div className="font-[family-name:var(--font-geist-sans)]">
       <MainNavBar />
-      <main className="flex justify-center items-center py-4">
-      
-        <div className="grid grid-cols-4 gap-4">
-          {cards}
-        </div>
-           
+      <main className="flex items-center justify-center py-4">
+        <div className="grid grid-cols-4 gap-4">{cards}</div>
       </main>
       <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
         <a

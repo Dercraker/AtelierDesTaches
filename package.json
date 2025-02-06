@@ -25,6 +25,7 @@
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "@mui/icons-material": "^6.4.3",
+    "@mui/material": "^6.4.3",
     "@mui/styled-engine-sc": "^6.4.2",
     "@prisma/client": "^6.3.0",
     "@t3-oss/env-nextjs": "^0.12.0",

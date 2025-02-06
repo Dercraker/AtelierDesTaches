@@ -1,6 +1,5 @@
 import * as z from "zod";
-import type { CompleteUser } from "./index";
-import { RelatedUserModel } from "./index";
+import { CompleteUser, RelatedUserModel } from "./index";
 
 export const AccountModel = z.object({
   userId: z.string(),
@@ -18,9 +17,9 @@ export const AccountModel = z.object({
   updatedAt: z.date(),
 });
 
-export type CompleteAccount = {
+export interface CompleteAccount extends z.infer<typeof AccountModel> {
   user: CompleteUser;
-} & z.infer<typeof AccountModel>;
+}
 
 /**
  * RelatedAccountModel contains all relations on your model in addition to the scalars
