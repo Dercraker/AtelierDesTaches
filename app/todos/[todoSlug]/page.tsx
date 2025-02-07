@@ -10,6 +10,8 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useState } from "react";
+import TodoFormDialog from "@/components/TodoFormDialog"
 
 const PrimaryButton = styled(Button)({
   boxShadow: "none",
@@ -40,17 +42,27 @@ const PrimaryButton = styled(Button)({
 });
 
 export default function Todo() {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <div>
-      <div className="mx-6 grid grid-cols-2 gap-4">
-        <div>
+      <div className="mx-6 flex gap-6">
+        <div className="w-1/2 flex flex-col gap-6">
           <h1>Todo App</h1>
           <Divider />
-          <PrimaryButton startIcon={<AddIcon />}>
-            Ajouter une tâche
-          </PrimaryButton>
+          <div>
+            <PrimaryButton startIcon={<AddIcon />} onClick={handleClickOpen}>
+              Ajouter une tâche
+            </PrimaryButton>
+            <TodoFormDialog open={open} handleClose={() => setOpen(false)} />
+          </div>
+
         </div>
-        <div>
+        <div className="w-1/2">
           <Card>
             <CardContent>
               <Typography
