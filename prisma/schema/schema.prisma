@@ -48,4 +48,5 @@ model User {
 
   //Add data here
   todos TodoMembership[] @relation
+  tasks Task[]           @relation
 }
