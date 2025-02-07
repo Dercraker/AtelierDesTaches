@@ -15,6 +15,7 @@ export const AddUserOnTodoQuery = async ({
 }: AddUserOnTodoQueryProps) => {
   const todo = await prisma.todo.update({
     where: {
+      deletedAt: null,
       ...where,
       members: {
         none: {

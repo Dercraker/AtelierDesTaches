@@ -16,7 +16,7 @@ export const AddUserOnTodoAction = todoAction
       userId: ctx.user.id,
       roles,
       where: {
-        id: ctx.todo.id,
+        slug: ctx.todo.slug,
       },
     });
 

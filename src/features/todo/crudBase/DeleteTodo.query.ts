@@ -8,8 +8,8 @@ type DeleteTodoQueryProps = {
 export const DeleteTodoQuery = async ({ where }: DeleteTodoQueryProps) => {
   await prisma.todo.update({
     where: {
-      ...where,
       deletedAt: null,
+      ...where,
     },
     data: {
       deletedAt: new Date(),

@@ -1,23 +1,23 @@
 import { prisma } from "@/lib/prisma";
 import { TodoModel } from "@/types/prisma";
-import type { Prisma } from "@prisma/client";
+import type { Prisma, Status } from "@prisma/client";
 
-type UpdateTodoQueryProps = {
+type ChangeTodoStatusQueryProps = {
   where: Prisma.TodoWhereUniqueInput;
-
-  data: Prisma.TodoUpdateInput;
+  status: Status;
 };
 
-export const UpdateTodoQuery = async ({
-  data,
+export const ChangeTodoStatusQuery = async ({
+  status,
   where,
-}: UpdateTodoQueryProps) => {
+}: ChangeTodoStatusQueryProps) => {
   const todo = await prisma.todo.update({
     where: {
+      deletedAt: null,
       ...where,
     },
     data: {
-      ...data,
+      status,
     },
   });
 

@@ -1,4 +1,4 @@
-import { GetTodoBySlugQuery } from "@/features/todo/GetTodoBySlug.query";
+import { GetTodoBySlugQuery } from "@/features/todo/crudBase/GetTodoBySlug.query";
 import { requiredAuth } from "@/lib/auth/helper";
 import { TodoModel } from "@/types/prisma";
 import type { TodoMembershipRole } from "@prisma/client";
