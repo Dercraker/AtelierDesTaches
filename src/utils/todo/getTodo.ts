@@ -1,6 +1,7 @@
 import { GetTodoBySlugQuery } from "@/features/todo/GetTodoBySlug.query";
 import { requiredAuth } from "@/lib/auth/helper";
 import { TodoModel } from "@/types/prisma";
+import type { TodoMembershipRole } from "@prisma/client";
 import { headers } from "next/headers";
 
 const GetTodoSlugFromUrl = async () => {
@@ -21,7 +22,11 @@ const GetTodoSlugFromUrl = async () => {
   return todoSlug;
 };
 
-export const GetCurrentTodo = async () => {
+export const GetCurrentTodo = async ({
+  roles,
+}: {
+  roles?: TodoMembershipRole[];
+}) => {
   const todoSlug = await GetTodoSlugFromUrl();
   const user = await requiredAuth();
 
@@ -30,7 +35,16 @@ export const GetCurrentTodo = async () => {
   const todo = await GetTodoBySlugQuery({
     where: {
       slug: todoSlug,
-      ownerId: user.id,
+      members: {
+        some: {
+          userId: user.id,
+          roles: roles
+            ? {
+                hasSome: [...roles, "OWNER"],
+              }
+            : undefined,
+        },
+      },
     },
   });
 

@@ -1,6 +1,11 @@
-import * as z from "zod"
-import { TodoMembershipRole } from "@prisma/client"
-import { CompleteTodo, RelatedTodoModel, CompleteUser, RelatedUserModel } from "./index"
+import * as z from "zod";
+import { TodoMembershipRole } from "@prisma/client";
+import {
+  CompleteTodo,
+  RelatedTodoModel,
+  CompleteUser,
+  RelatedUserModel,
+} from "./index";
 
 export const TodoMembershipModel = z.object({
   todoId: z.string(),
@@ -9,11 +14,12 @@ export const TodoMembershipModel = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   deletedAt: z.date().nullish(),
-})
+});
 
-export interface CompleteTodoMembership extends z.infer<typeof TodoMembershipModel> {
-  todo: CompleteTodo
-  user: CompleteUser
+export interface CompleteTodoMembership
+  extends z.infer<typeof TodoMembershipModel> {
+  todo: CompleteTodo;
+  user: CompleteUser;
 }
 
 /**
@@ -21,7 +27,10 @@ export interface CompleteTodoMembership extends z.infer<typeof TodoMembershipMod
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedTodoMembershipModel: z.ZodSchema<CompleteTodoMembership> = z.lazy(() => TodoMembershipModel.extend({
-  todo: RelatedTodoModel,
-  user: RelatedUserModel,
-}))
+export const RelatedTodoMembershipModel: z.ZodSchema<CompleteTodoMembership> =
+  z.lazy(() =>
+    TodoMembershipModel.extend({
+      todo: RelatedTodoModel,
+      user: RelatedUserModel,
+    }),
+  );
