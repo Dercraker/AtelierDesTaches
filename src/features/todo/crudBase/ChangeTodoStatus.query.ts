@@ -13,6 +13,7 @@ export const ChangeTodoStatusQuery = async ({
 }: ChangeTodoStatusQueryProps) => {
   const todo = await prisma.todo.update({
     where: {
+      deletedAt: null,
       ...where,
     },
     data: {

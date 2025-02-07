@@ -1,7 +1,9 @@
+import { TodoMembershipRole } from "@prisma/client";
 import { createSafeActionClient } from "next-safe-action";
+import { z } from "zod";
 import { AuthError } from "../auth/helper";
 import { logger } from "../logger";
-import { AuthMiddleware, TodoOwnerMiddleware } from "./ActionMiddleware";
+import { AuthMiddleware, TodoMiddleware } from "./ActionMiddleware";
 
 export class ActionError extends Error {}
 
@@ -31,8 +33,15 @@ export const authAction = createSafeActionClient({
   handleServerError,
 }).use(AuthMiddleware);
 
-export const todoOwnerAction = createSafeActionClient({
+export const todoAction = createSafeActionClient({
   handleServerError,
+  defineMetadataSchema() {
+    return z
+      .object({
+        roles: z.array(z.nativeEnum(TodoMembershipRole)),
+      })
+      .optional();
+  },
 })
   .use(AuthMiddleware)
-  .use(TodoOwnerMiddleware);
+  .use(TodoMiddleware);

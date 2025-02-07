@@ -2,20 +2,23 @@ import { prisma } from "@/lib/prisma";
 import { TodoModel } from "@/types/prisma";
 import type { Prisma } from "@prisma/client";
 
-type GetTodoByOwnerQueryProps = {
-  ownerId: string;
+type UpdateTodoQueryProps = {
   where: Prisma.TodoWhereUniqueInput;
+
+  data: Prisma.TodoUpdateInput;
 };
 
-export const GetTodoByOwnerQuery = async ({
+export const UpdateTodoQuery = async ({
+  data,
   where,
-  ownerId,
-}: GetTodoByOwnerQueryProps) => {
-  const todo = await prisma.todo.findUnique({
+}: UpdateTodoQueryProps) => {
+  const todo = await prisma.todo.update({
     where: {
       deletedAt: null,
       ...where,
-      ownerId,
+    },
+    data: {
+      ...data,
     },
   });
 

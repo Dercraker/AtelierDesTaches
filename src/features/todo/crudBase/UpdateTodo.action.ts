@@ -1,6 +1,6 @@
 "use server";
 
-import { todoOwnerAction } from "@/lib/action/SafeAction";
+import { todoAction } from "@/lib/action/SafeAction";
 import { TodoModel } from "@/types/prisma";
 import { Status } from "@prisma/client";
 import { z } from "zod";
@@ -13,13 +13,13 @@ const UpdateTodoActionSchema = z.object({
   dueDate: z.date().optional(),
 });
 
-export const UpdateTodoAction = todoOwnerAction
+export const UpdateTodoAction = todoAction
+  .metadata({ roles: ["ADMIN", "OWNER"] })
   .schema(UpdateTodoActionSchema)
   .action(async ({ parsedInput, ctx }) => {
     const todo = await UpdateTodoQuery({
       where: {
         slug: ctx.todo.slug,
-        ownerId: ctx.user.id,
       },
       data: {
         ...parsedInput,
