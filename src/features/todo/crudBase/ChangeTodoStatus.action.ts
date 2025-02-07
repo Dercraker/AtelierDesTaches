@@ -9,7 +9,6 @@ import { ChangeTodoStatusQuery } from "./ChangeTodoStatus.query";
 const ChangeTodoStatusActionSchema = z.object({
   status: z.nativeEnum(Status),
 });
-// test
 
 export const ChangeTodoStatusAction = todoAction
   .metadata({ roles: ["MEMBER", "ADMIN", "OWNER"] })

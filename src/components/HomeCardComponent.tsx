@@ -39,22 +39,21 @@ const PrimaryButton = styled(Button)({
   },
 });
 
-export default function HomeCardComponent() {
+export default function HomeCardComponent({ todo }: { todo: { title: string; description?: string; image?: string } }) {
   return (
     <Card sx={{ maxWidth: 345 }} variant="outlined">
       <CardMedia
         component="img"
         height="140"
-        image="https://static.vecteezy.com/ti/vecteur-libre/p1/13160044-fond-d-ecran-de-vecteur-de-paysage-fond-de-printemps-ou-d-automne-vectoriel.jpg"
-        alt="Random Image"
+        image={todo.image || "https://via.placeholder.com/345x140"}
+        alt={todo.title}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          TodoList Name
+          {todo.title}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {todo.description || "Aucune description disponible."}
         </Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "end" }}>
