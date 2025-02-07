@@ -1,5 +1,5 @@
-import * as z from "zod";
-import { CompleteUser, RelatedUserModel } from "./index";
+import * as z from "zod"
+import { CompleteUser, RelatedUserModel } from "./index"
 
 export const AuthenticatorModel = z.object({
   credentialID: z.string(),
@@ -10,11 +10,10 @@ export const AuthenticatorModel = z.object({
   credentialDeviceType: z.string(),
   credentialBackedUp: z.boolean(),
   transports: z.string().nullish(),
-});
+})
 
-export interface CompleteAuthenticator
-  extends z.infer<typeof AuthenticatorModel> {
-  user: CompleteUser;
+export interface CompleteAuthenticator extends z.infer<typeof AuthenticatorModel> {
+  user: CompleteUser
 }
 
 /**
@@ -22,9 +21,6 @@ export interface CompleteAuthenticator
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedAuthenticatorModel: z.ZodSchema<CompleteAuthenticator> =
-  z.lazy(() =>
-    AuthenticatorModel.extend({
-      user: RelatedUserModel,
-    }),
-  );
+export const RelatedAuthenticatorModel: z.ZodSchema<CompleteAuthenticator> = z.lazy(() => AuthenticatorModel.extend({
+  user: RelatedUserModel,
+}))

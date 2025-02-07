@@ -1,0 +1,20 @@
+{
+  "nact": {
+    "prefix": "nact",
+    "description": "Create the base for a Server Action",
+    "scope": "javascript,typescript",
+    "body": [
+      "\"use server\";",
+      "",
+      "import { orgAction } from \"@/lib/actions/safe-actions\";",
+      "import { z } from \"zod\";",
+      "",
+      "const ${1:${TM_FILENAME_BASE/([\\w]+)\\.([\\w]+)/${1:/capitalize}${2:/capitalize}/g}}Schema = z.object({",
+      "  $2",
+      "});",
+      "",
+      "export const ${1:${TM_FILENAME_BASE/([\\w]+)\\.([\\w]+)/${1:/capitalize}${2:/capitalize}/g}} = orgAction.schema(${1:${TM_FILENAME_BASE/([\\w]+)\\.([\\w]+)/${1:/capitalize}${2:/capitalize}/g}}Schema).action(async ({parsedInput: {$3}, ctx}) => {$4});",
+    ],
+  },
+}
+
