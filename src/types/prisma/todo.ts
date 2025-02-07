@@ -1,6 +1,6 @@
 import * as z from "zod";
 import { Status } from "@prisma/client";
-import { CompleteUser, RelatedUserModel } from "./index";
+import { CompleteTodoMembership, RelatedTodoMembershipModel } from "./index";
 
 export const TodoModel = z.object({
   id: z.string(),
@@ -12,11 +12,10 @@ export const TodoModel = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   deletedAt: z.date().nullish(),
-  ownerId: z.string(),
 });
 
 export interface CompleteTodo extends z.infer<typeof TodoModel> {
-  owner: CompleteUser;
+  members: CompleteTodoMembership[];
 }
 
 /**
@@ -26,6 +25,6 @@ export interface CompleteTodo extends z.infer<typeof TodoModel> {
  */
 export const RelatedTodoModel: z.ZodSchema<CompleteTodo> = z.lazy(() =>
   TodoModel.extend({
-    owner: RelatedUserModel,
+    members: RelatedTodoMembershipModel.array(),
   }),
 );

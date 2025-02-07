@@ -21,9 +21,14 @@ export const CreateTodoAction = authAction
         slug: generateSlug(title),
         description,
         dueDate,
-        owner: {
-          connect: {
-            id: ctx.user.id,
+        members: {
+          create: {
+            roles: ["OWNER"],
+            user: {
+              connect: {
+                id: ctx.user.id,
+              },
+            },
           },
         },
       },

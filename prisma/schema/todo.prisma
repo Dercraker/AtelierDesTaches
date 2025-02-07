@@ -10,12 +10,35 @@ model Todo {
   updatedAt   DateTime @updatedAt
   deletedAt   DateTime?
 
-  ownerId      String
-  owner        User    @relation(fields: [ownerId], references: [id])
+  members     TodoMembership[]  @relation
+
 }
 
 enum Status {
   PENDING
   IN_PROGRESS
   COMPLETED
+}
+
+
+model TodoMembership {
+  todoId  String
+  todo  Todo  @relation(fields: [todoId], references: [id])
+
+  userId  String
+  user  User  @relation(fields: [userId], references: [id])
+
+  roles TodoMembershipRole[]  @default([MEMBER])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@id([userId, todoId])
+}
+
+enum TodoMembershipRole {
+  OWNER
+  ADMIN
+  MEMBER
 }

@@ -22,7 +22,11 @@ export const GetUserTodosAction = authAction
     const todos = await GetUserTodosQuery({
       where: {
         ...where,
-        ownerId: ctx.user.id,
+        members: {
+          some: {
+            userId: ctx.user.id,
+          },
+        },
       },
       ...(lastTodoSlug ? { cursor: { slug: lastTodoSlug } } : {}),
       take,
