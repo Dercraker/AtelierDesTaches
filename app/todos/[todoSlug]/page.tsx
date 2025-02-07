@@ -50,8 +50,8 @@ export default function Todo() {
 
   return (
     <div>
-      <div className="mx-6 flex gap-6">
-        <div className="w-1/2 flex flex-col gap-6">
+      <div className="mx-6 flex gap-6 h-full">
+        <div className="w-1/2 flex flex-col gap-6 h-full">
           <h1>Todo App</h1>
           <Divider />
           <div>
@@ -62,7 +62,7 @@ export default function Todo() {
           </div>
 
         </div>
-        <div className="w-1/2">
+        <div className="w-1/2 h-full flex items-center">
           <Card>
             <CardContent>
               <Typography
