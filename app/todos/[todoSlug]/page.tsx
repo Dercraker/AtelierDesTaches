@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import TodoFormDialog from "@/components/TodoFormDialog"
+import TodoFormDialog from "@/components/AddTaskDialog";
 
 const PrimaryButton = styled(Button)({
   boxShadow: "none",
@@ -50,8 +50,8 @@ export default function Todo() {
 
   return (
     <div>
-      <div className="mx-6 flex gap-6 h-full">
-        <div className="w-1/2 flex flex-col gap-6 h-full">
+      <div className="mx-6 flex h-full gap-6">
+        <div className="flex h-full w-1/2 flex-col gap-6">
           <h1>Todo App</h1>
           <Divider />
           <div>
@@ -62,8 +62,8 @@ export default function Todo() {
           </div>
 
         </div>
-        <div className="w-1/2 h-full flex items-center">
-          <Card>
+        <div className="flex h-full w-1/2 items-center">
+          <Card variant="outlined">
             <CardContent>
               <Typography
                 gutterBottom

@@ -2,7 +2,7 @@ import { AppBar, Box, Container, Toolbar, Typography } from "@mui/material";
 
 export const MainFooter = () => {
   return (
-    <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
+    <footer className="flex flex-wrap items-center justify-center" style={{paddingTop: 24}}>
       <AppBar 
       position="fixed" 
       sx={{
