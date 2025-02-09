@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import TodoFormDialog from "@/components/AddTaskDialog";
+import AddTaskDialog from "@/components/AddTaskDialog";
+import TaskCard from "@/components/TaskCard";
 
 const PrimaryButton = styled(Button)({
   boxShadow: "none",
@@ -43,6 +44,8 @@ const PrimaryButton = styled(Button)({
 
 export default function Todo() {
   const [open, setOpen] = useState(false);
+  const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam commodo, mauris a viverra ultricies, lectus purus facilisis orci, vel malesuada augue lorem commodo augue. Vivamus quis risus ac enim mattis tempor. Nullam placerat felis interdum sapien ornare dictum. Nam in dapibus ex. Nulla neque nisi, auctor et pharetra eu, efficitur et arcu. Phasellus fermentum mauris et eros mattis volutpat. Etiam ut ante a purus malesuada finibus eu in tortor. Nam tempus sit amet quam ut semper. Cras sed turpis a risus scelerisque ullamcorper.";
+  const date = new Date();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,9 +61,9 @@ export default function Todo() {
             <PrimaryButton startIcon={<AddIcon />} onClick={handleClickOpen}>
               Ajouter une tâche
             </PrimaryButton>
-            <TodoFormDialog open={open} handleClose={() => setOpen(false)} />
+            <AddTaskDialog open={open} handleClose={() => setOpen(false)} />
           </div>
-
+          <TaskCard title="titre" description={description} dueDate={date} status="PENDING"/>
         </div>
         <div className="flex h-full w-1/2 items-center">
           <Card variant="outlined">

@@ -58,12 +58,12 @@ const PrimaryButton = styled(Button)({
   },
 });
 
-type SubscriptionDialogProps = {
+type AddTaskDialogProps = {
   open: boolean;
   handleClose: () => void;
 }
 
-export default function MainNavBar({ open, handleClose }: SubscriptionDialogProps) {
+export default function MainNavBar({ open, handleClose }: AddTaskDialogProps) {
 
   return (
     <Dialog
@@ -73,14 +73,6 @@ export default function MainNavBar({ open, handleClose }: SubscriptionDialogProp
       onClose={handleClose}
       PaperProps={{
         component: 'form',
-        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          const formJson = Object.fromEntries((formData as any).entries());
-          const email = formJson.email;
-          console.log(email);
-          handleClose();
-        },
       }}
     >
       <DialogTitle>Créer ou modifier un tâche </DialogTitle>

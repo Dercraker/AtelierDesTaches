@@ -45,3 +45,7 @@ body {
   background-color: #f29a75;
   color: #333333;
 }
+
+.MuiChip-icon {
+  color: #333333 !important;
+}
