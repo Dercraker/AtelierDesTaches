@@ -1,4 +1,5 @@
-import { Card, CardContent, Typography, Chip, IconButton, Menu, MenuItem } from '@mui/material';
+import type { SelectChangeEvent  } from '@mui/material';
+import { Card, CardContent, Typography, Chip, IconButton, Menu, MenuItem, Select, FormControl  } from '@mui/material';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from "react";
@@ -8,15 +9,25 @@ type TaskCardProps = {
   title: string;
   description: string;
   dueDate: Date;
-  status: string;
 }
 
-export default function TaskCard({title, description, dueDate, status}:TaskCardProps) {
+const statusMapping: Record<string, { label: string; color: "warning" | "info" | "success" }> = {
+  PENDING: { label: "En attente", color: "warning" },
+  IN_PROGRESS: { label: "En cours", color: "info" },
+  COMPLETED: { label: "Terminé", color: "success" },
+};
+
+export default function TaskCard({title, description, dueDate}:TaskCardProps) {
 
   const dateString = dueDate.toLocaleDateString("fr-FR");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedComponent, setSelectedComponent] = useState<React.ReactNode>(null);
   const open = Boolean(anchorEl);
+  const [status, setStatus] = useState<keyof typeof statusMapping>("PENDING");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as keyof typeof statusMapping);
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -57,8 +68,24 @@ export default function TaskCard({title, description, dueDate, status}:TaskCardP
                 {description}
               </Typography>
             </div>
-            <div>
+            <div className='flex' style={{justifyContent: "space-between"}}>
               <Chip icon={<CalendarMonthOutlinedIcon />} label={dateString} style={{ backgroundColor: '#F29A75'}} />
+              <FormControl size="small">
+                <Select
+                  labelId="status-label"
+                  value={status}
+                  onChange={handleChange}
+                  renderValue={(selected) => (
+                    <Chip label={statusMapping[selected]?.label} color={statusMapping[selected]?.color} />
+                  )}
+                >
+                  {Object.entries(statusMapping).map(([key, { label, color }]) => (
+                    <MenuItem key={key} value={key}>
+                      <Chip label={label} color={color} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </div>
             
           </CardContent>

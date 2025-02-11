@@ -44,8 +44,9 @@ const PrimaryButton = styled(Button)({
 
 export default function Todo() {
   const [open, setOpen] = useState(false);
-  const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam commodo, mauris a viverra ultricies, lectus purus facilisis orci, vel malesuada augue lorem commodo augue. Vivamus quis risus ac enim mattis tempor. Nullam placerat felis interdum sapien ornare dictum. Nam in dapibus ex. Nulla neque nisi, auctor et pharetra eu, efficitur et arcu. Phasellus fermentum mauris et eros mattis volutpat. Etiam ut ante a purus malesuada finibus eu in tortor. Nam tempus sit amet quam ut semper. Cras sed turpis a risus scelerisque ullamcorper.";
-  const date = new Date();
+  const [todoName, setTodoName] = useState("Todo Name");
+  const [todoDescription, setTodoDescription] = useState("Quisque ac enim at lectus vehicula venenatis. Donec sed facilisis ligula. Maecenas a tincidunt mi. Aliquam eu faucibus eros, at pulvinar mi. Morbi ut ex molestie, pharetra urna eget, eleifend sem. Proin pulvinar eget augue sed gravida. Integer sed feugiat lacus, nec bibendum orci.");
+  const [tasks, setTasks] =  useState< { id: number; title: string; description: string; dueDate: Date }[]>([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -63,11 +64,27 @@ export default function Todo() {
             </PrimaryButton>
             <AddTaskDialog open={open} handleClose={() => setOpen(false)} />
           </div>
-          <TaskCard title="titre" description={description} dueDate={date} status="PENDING"/>
+          {tasks.length > 0 ? (
+            tasks.map((task) => (
+              <TaskCard 
+                key={task.id} 
+                title={task.title} 
+                description={task.description} 
+                dueDate={task.dueDate} 
+              />
+            ))
+          ) : (
+            <p>Aucune tâche n'a été créé.</p>
+          )}
         </div>
         <div className="flex h-full w-1/2 items-center">
           <Card variant="outlined">
-            <CardContent>
+            <CardContent className="flex flex-col gap-4">
+              <Typography
+                  variant="h4"
+                >
+                {todoName}
+              </Typography>
               <Typography
                 gutterBottom
                 variant="h5"
@@ -76,11 +93,7 @@ export default function Todo() {
                 Description
               </Typography>
               <Typography component="div">
-                Quisque ac enim at lectus vehicula venenatis. Donec sed
-                facilisis ligula. Maecenas a tincidunt mi. Aliquam eu faucibus
-                eros, at pulvinar mi. Morbi ut ex molestie, pharetra urna eget,
-                eleifend sem. Proin pulvinar eget augue sed gravida. Integer sed
-                feugiat lacus, nec bibendum orci.
+                {todoDescription}
               </Typography>
             </CardContent>
             <CardActions>
