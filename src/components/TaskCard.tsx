@@ -1,8 +1,18 @@
-'use client'
-import type { SelectChangeEvent  } from '@mui/material';
-import { Card, CardContent, Typography, Chip, IconButton, Menu, MenuItem, Select, FormControl  } from '@mui/material';
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+"use client";
+import type { SelectChangeEvent } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Chip,
+  IconButton,
+  Menu,
+  MenuItem,
+  Select,
+  FormControl,
+} from "@mui/material";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import AddTaskDialog from "@/components/AddTaskDialog";
 
