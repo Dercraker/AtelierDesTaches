@@ -30,7 +30,7 @@ export default function RootLayout({ children }: LayoutParams) {
         <Providers>
           <div className="font-[family-name:var(--font-geist-sans)]" style={{height: "calc(100% - 64px)"}}>
             <MainNavBar />
-            <main className="flex pt-4 justify-center mb-16">
+            <main className="mb-16 flex justify-center pt-4">
               {children}
             </main>
             <MainFooter />
