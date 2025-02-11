@@ -73,6 +73,13 @@ export default function MainNavBar({ open, handleClose }: AddTaskDialogProps) {
       onClose={handleClose}
       PaperProps={{
         component: 'form',
+        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          const formJson = Object.fromEntries(formData.entries()) as Record<string, string>;
+          const email = formJson.email;
+          handleClose();
+        },
       }}
     >
       <DialogTitle>Créer ou modifier un tâche </DialogTitle>
