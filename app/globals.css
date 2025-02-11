@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: rgba(242, 154, 117, 0.1);
   --foreground: #171717;
+  height: 100%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,5 +18,30 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif; 
+}
+
+.btn-home-card {
+  font-size: 16px;
+  padding: 6px 12px;
+  line-height: 1.5rem;
+  background-color: #ea642a;
+  color: #ffff;
+  border-radius: 4px;
+}
+
+.btn-home-card:hover {
+  background-color: #ffff;
+  border: 1px solid #ea642a;
+  color: #ea642a;
+}
+
+.btn-home-card:active {
+  background-color: #f29a75;
+  color: #333333;
+}
+
+.btn-home-card:focus {
+  background-color: #f29a75;
+  color: #333333;
 }
