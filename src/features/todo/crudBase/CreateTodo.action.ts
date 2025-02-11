@@ -9,18 +9,16 @@ import { CreateTodoQuery } from "./CreateTodo.query";
 const CreateTodoSchema = z.object({
   title: z.string().min(3),
   description: z.string().min(10).nullish(),
-  dueDate: z.date().nullish(),
 });
 
 export const CreateTodoAction = authAction
   .schema(CreateTodoSchema)
-  .action(async ({ parsedInput: { title, description, dueDate }, ctx }) => {
+  .action(async ({ parsedInput: { title, description }, ctx }) => {
     const todo = await CreateTodoQuery({
       data: {
         title,
         slug: generateSlug(title),
         description,
-        dueDate,
         members: {
           create: {
             roles: ["OWNER"],
