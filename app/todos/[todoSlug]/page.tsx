@@ -60,7 +60,6 @@ export default function Todo() {
             </PrimaryButton>
             <TodoFormDialog open={open} handleClose={() => setOpen(false)} />
           </div>
-
         </div>
         <div className="flex h-full w-1/2 items-center">
           <Card variant="outlined">

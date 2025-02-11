@@ -1,4 +1,11 @@
-import { DialogTitle, DialogContent, DialogActions, Dialog, TextField, Button } from '@mui/material';
+import {
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Dialog,
+  TextField,
+  Button,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const OutlinedButton = styled(Button)({
@@ -61,10 +68,12 @@ const PrimaryButton = styled(Button)({
 type SubscriptionDialogProps = {
   open: boolean;
   handleClose: () => void;
-}
+};
 
-export default function MainNavBar({ open, handleClose }: SubscriptionDialogProps) {
-
+export default function MainNavBar({
+  open,
+  handleClose,
+}: SubscriptionDialogProps) {
   return (
     <Dialog
       fullWidth
@@ -72,11 +81,14 @@ export default function MainNavBar({ open, handleClose }: SubscriptionDialogProp
       open={open}
       onClose={handleClose}
       PaperProps={{
-        component: 'form',
+        component: "form",
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
-          const formJson = Object.fromEntries(formData.entries()) as Record<string, string>;
+          const formJson = Object.fromEntries(formData.entries()) as Record<
+            string,
+            string
+          >;
           const email = formJson.email;
           handleClose();
         },
@@ -111,8 +123,8 @@ export default function MainNavBar({ open, handleClose }: SubscriptionDialogProp
             />
           </div>
           <div>
-          <span>Date d'échéance</span>
-          <TextField
+            <span>Date d'échéance</span>
+            <TextField
               margin="none"
               id="due-date"
               name="due-date"

@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-
 export default function HomeCardComponent() {
   return (
     <Card sx={{ maxWidth: 345 }} variant="outlined">

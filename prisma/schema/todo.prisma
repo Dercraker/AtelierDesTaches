@@ -3,22 +3,17 @@ model Todo {
   slug        String   @unique
   title       String
   description String?
-  status      Status   @default(PENDING)
-  dueDate     DateTime?
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   deletedAt   DateTime?
 
+  tasks       Task[]            @relation
   members     TodoMembership[]  @relation
 
 }
 
-enum Status {
-  PENDING
-  IN_PROGRESS
-  COMPLETED
-}
+
 
 
 model TodoMembership {
