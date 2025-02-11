@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import {
   Card,
   CardActions,
@@ -11,9 +10,9 @@ import Link from "next/link";
 type HomeCardProps = {
   title: string;
   description: string;
-}
+};
 
-export default function HomeCard({title, description}:HomeCardProps) {
+export default function HomeCard({ title, description }: HomeCardProps) {
   return (
     <Card sx={{ maxWidth: 345 }} variant="outlined">
       <CardMedia

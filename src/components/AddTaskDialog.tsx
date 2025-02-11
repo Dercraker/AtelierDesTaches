@@ -1,4 +1,13 @@
-import { DialogTitle, DialogContent, DialogActions, Dialog, TextField, Button } from '@mui/material';
+"use client";
+
+import {
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Dialog,
+  TextField,
+  Button,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const OutlinedButton = styled(Button)({
@@ -61,10 +70,9 @@ const PrimaryButton = styled(Button)({
 type AddTaskDialogProps = {
   open: boolean;
   handleClose: () => void;
-}
+};
 
 export default function MainNavBar({ open, handleClose }: AddTaskDialogProps) {
-
   return (
     <Dialog
       fullWidth
@@ -72,11 +80,14 @@ export default function MainNavBar({ open, handleClose }: AddTaskDialogProps) {
       open={open}
       onClose={handleClose}
       PaperProps={{
-        component: 'form',
+        component: "form",
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
-          const formJson = Object.fromEntries(formData.entries()) as Record<string, string>;
+          const formJson = Object.fromEntries(formData.entries()) as Record<
+            string,
+            string
+          >;
           const email = formJson.email;
           handleClose();
         },
@@ -111,8 +122,8 @@ export default function MainNavBar({ open, handleClose }: AddTaskDialogProps) {
             />
           </div>
           <div>
-          <span>Date d'échéance</span>
-          <TextField
+            <span>Date d'échéance</span>
+            <TextField
               margin="none"
               id="due-date"
               name="due-date"

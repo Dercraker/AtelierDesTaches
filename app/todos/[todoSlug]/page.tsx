@@ -45,8 +45,12 @@ const PrimaryButton = styled(Button)({
 export default function Todo() {
   const [open, setOpen] = useState(false);
   const [todoName, setTodoName] = useState("Todo Name");
-  const [todoDescription, setTodoDescription] = useState("Quisque ac enim at lectus vehicula venenatis. Donec sed facilisis ligula. Maecenas a tincidunt mi. Aliquam eu faucibus eros, at pulvinar mi. Morbi ut ex molestie, pharetra urna eget, eleifend sem. Proin pulvinar eget augue sed gravida. Integer sed feugiat lacus, nec bibendum orci.");
-  const [tasks, setTasks] =  useState< { id: number; title: string; description: string; dueDate: Date }[]>([]);
+  const [todoDescription, setTodoDescription] = useState(
+    "Quisque ac enim at lectus vehicula venenatis. Donec sed facilisis ligula. Maecenas a tincidunt mi. Aliquam eu faucibus eros, at pulvinar mi. Morbi ut ex molestie, pharetra urna eget, eleifend sem. Proin pulvinar eget augue sed gravida. Integer sed feugiat lacus, nec bibendum orci.",
+  );
+  const [tasks, setTasks] = useState<
+    { id: number; title: string; description: string; dueDate: Date }[]
+  >([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -66,11 +70,11 @@ export default function Todo() {
           </div>
           {tasks.length > 0 ? (
             tasks.map((task) => (
-              <TaskCard 
-                key={task.id} 
-                title={task.title} 
-                description={task.description} 
-                dueDate={task.dueDate} 
+              <TaskCard
+                key={task.id}
+                title={task.title}
+                description={task.description}
+                dueDate={task.dueDate}
               />
             ))
           ) : (
@@ -80,11 +84,7 @@ export default function Todo() {
         <div className="flex h-full w-1/2 items-center">
           <Card variant="outlined">
             <CardContent className="flex flex-col gap-4">
-              <Typography
-                  variant="h4"
-                >
-                {todoName}
-              </Typography>
+              <Typography variant="h4">{todoName}</Typography>
               <Typography
                 gutterBottom
                 variant="h5"
@@ -92,9 +92,7 @@ export default function Todo() {
               >
                 Description
               </Typography>
-              <Typography component="div">
-                {todoDescription}
-              </Typography>
+              <Typography component="div">{todoDescription}</Typography>
             </CardContent>
             <CardActions>
               <PrimaryButton>S'abonner</PrimaryButton>

@@ -68,7 +68,10 @@ export default function MainNavBar() {
   };
 
   return (
-    <AppBar position="sticky" style={{ backgroundColor: "#ea642a", height: "fit-content" }}>
+    <AppBar
+      position="sticky"
+      style={{ backgroundColor: "#ea642a", height: "fit-content" }}
+    >
       <Toolbar className="flex items-center">
         <Image
           src="/logo_atelier_des_taches_blanc.svg"
