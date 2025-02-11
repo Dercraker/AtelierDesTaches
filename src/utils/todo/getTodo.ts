@@ -37,6 +37,7 @@ export const GetCurrentTodo = async ({
       slug: todoSlug,
       members: {
         some: {
+          deletedAt: null,
           userId: user.id,
           roles: roles
             ? {
