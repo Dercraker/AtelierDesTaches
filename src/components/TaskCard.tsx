@@ -1,3 +1,4 @@
+'use client'
 import type { SelectChangeEvent  } from '@mui/material';
 import { Card, CardContent, Typography, Chip, IconButton, Menu, MenuItem, Select, FormControl  } from '@mui/material';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
