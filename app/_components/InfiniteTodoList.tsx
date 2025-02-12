@@ -11,20 +11,13 @@ import { useInView } from "react-intersection-observer";
 export const InfiniteTodoList = () => {
   const [cursor, SetCursor] = useState<string>();
   const { ref: inViewRef, inView } = useInView();
+  const pageSize = 3;
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
+  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["Todos"],
     queryFn: async () => {
       const result = await GetPaginatedTodosAction({
-        take: 2,
+        take: pageSize,
         lastTodoSlug: cursor,
       });
 
@@ -35,6 +28,7 @@ export const InfiniteTodoList = () => {
     },
     initialPageParam: undefined,
     getNextPageParam: (lastPage) => {
+      if (lastPage.data.length < pageSize) return null;
       return lastPage.data[lastPage.data.length - 1].slug;
     },
   });

@@ -26,4 +26,3 @@ export const GetPaginatedTodosQuery = async ({
 
   return z.array(TodoModel).parse(todos);
 };
-
