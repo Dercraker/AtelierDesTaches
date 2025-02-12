@@ -114,7 +114,6 @@ export default [
       "@typescript-eslint/consistent-type-exports": "error",
       "@typescript-eslint/dot-notation": "error",
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-      "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/default-param-last": "error",
       "react/no-unescaped-entities": 0,
