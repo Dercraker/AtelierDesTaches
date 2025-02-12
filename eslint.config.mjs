@@ -24,6 +24,7 @@ export default [
       },
     },
   },
+
   // Typescript
   ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
@@ -146,5 +147,13 @@ export default [
       "**/worker.js",
       "**/types/prisma/**.ts",
     ],
+  },
+
+  // INNGEST config
+  {
+    plugins: ["@inngest"],
+    extends: ["plugin:@inngest/recommended"],
+    //https://www.npmjs.com/package/@inngest/eslint-plugin
+    rules: {},
   },
 ];
