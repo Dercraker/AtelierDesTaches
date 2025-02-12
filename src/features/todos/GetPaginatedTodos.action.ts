@@ -40,4 +40,3 @@ export const GetPaginatedTodosAction = action
     });
     return z.array(TodoModel).parse(todos);
   });
-

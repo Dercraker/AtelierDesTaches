@@ -7,7 +7,11 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-export default function HomeCardComponent({ todo }: { todo: { title: string; description?: string; image?: string } }) {
+export default function HomeCardComponent({
+  todo,
+}: {
+  todo: { title: string; description?: string; image?: string };
+}) {
   return (
     <Card sx={{ maxWidth: 345 }} variant="outlined">
       <CardMedia
