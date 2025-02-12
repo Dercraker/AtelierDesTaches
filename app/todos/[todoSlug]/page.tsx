@@ -1,5 +1,7 @@
 "use client";
 
+import AddTaskDialog from "@/components/AddTaskDialog";
+import TaskCard from "@/components/TaskCard";
 import AddIcon from "@mui/icons-material/Add";
 import {
   Button,
@@ -11,8 +13,6 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import AddTaskDialog from "@/components/AddTaskDialog";
-import TaskCard from "@/components/TaskCard";
 
 const PrimaryButton = styled(Button)({
   boxShadow: "none",
@@ -48,9 +48,44 @@ export default function Todo() {
   const [todoDescription, setTodoDescription] = useState(
     "Quisque ac enim at lectus vehicula venenatis. Donec sed facilisis ligula. Maecenas a tincidunt mi. Aliquam eu faucibus eros, at pulvinar mi. Morbi ut ex molestie, pharetra urna eget, eleifend sem. Proin pulvinar eget augue sed gravida. Integer sed feugiat lacus, nec bibendum orci.",
   );
-  const [tasks, setTasks] = useState<
-    { id: number; title: string; description: string; dueDate: Date }[]
-  >([]);
+
+  type Task = {
+    id: number;
+    title: string;
+    description: string;
+    dueDate: Date;
+  };
+  
+  const [tasks, setTasks] = useState<Task[]>([{
+    id: 1,
+    title: "Faire les courses",
+    description: "Acheter des fruits, légumes et du pain.",
+    dueDate: new Date("2025-02-14T09:00:00"),
+  },
+  {
+    id: 2,
+    title: "Réunion avec l'équipe",
+    description: "Discuter des prochaines étapes du projet.",
+    dueDate: new Date("2025-02-15T14:00:00"),
+  },
+  {
+    id: 3,
+    title: "Répondre aux emails",
+    description: "Répondre aux emails en attente de la journée.",
+    dueDate: new Date("2025-02-13T12:00:00"),
+  },
+  {
+    id: 4,
+    title: "Préparer la présentation",
+    description: "Créer une présentation PowerPoint pour la réunion de demain.",
+    dueDate: new Date("2025-02-14T16:00:00"),
+  },
+  {
+    id: 5,
+    title: "Nettoyer la maison",
+    description: "Passer l'aspirateur et nettoyer les surfaces.",
+    dueDate: new Date("2025-02-16T10:00:00"),
+  },]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -68,18 +103,20 @@ export default function Todo() {
             </PrimaryButton>
             <AddTaskDialog open={open} handleClose={() => setOpen(false)} />
           </div>
-          {tasks.length > 0 ? (
-            tasks.map((task) => (
-              <TaskCard
-                key={task.id}
-                title={task.title}
-                description={task.description}
-                dueDate={task.dueDate}
-              />
-            ))
-          ) : (
-            <p>Aucune tâche n'a été créé.</p>
-          )}
+          <div className="flex flex-col gap-6 overflow-auto" style={{ height: "calc(100vh - 310px)"}}>
+            {tasks.length > 0 ? (
+              tasks.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  title={task.title}
+                  description={task.description}
+                  dueDate={task.dueDate}
+                />
+              ))
+            ) : (
+              <p>Aucune tâche n'a été créé.</p>
+            )}
+          </div>
         </div>
         <div className="flex h-full w-1/2 items-center">
           <Card variant="outlined">

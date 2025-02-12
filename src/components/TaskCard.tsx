@@ -1,20 +1,22 @@
 "use client";
-import type { SelectChangeEvent } from "@mui/material";
+import AddTaskDialog from "@/components/AddTaskDialog";
+import AutoModeIcon from '@mui/icons-material/AutoMode';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import {
   Card,
   CardContent,
-  Typography,
-  Chip,
   IconButton,
   Menu,
   MenuItem,
-  Select,
-  FormControl,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  Typography,
 } from "@mui/material";
-import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import type { ReactElement } from "react";
 import { useState } from "react";
-import AddTaskDialog from "@/components/AddTaskDialog";
 
 type TaskCardProps = {
   title: string;
@@ -24,11 +26,11 @@ type TaskCardProps = {
 
 const statusMapping: Record<
   string,
-  { label: string; color: "warning" | "info" | "success" }
+  { label: string; color: "warning" | "info" | "success"; icon: ReactElement }
 > = {
-  PENDING: { label: "En attente", color: "warning" },
-  IN_PROGRESS: { label: "En cours", color: "info" },
-  COMPLETED: { label: "Terminé", color: "success" },
+  PENDING: { label: "En attente", color: "warning", icon: <PauseCircleOutlineIcon /> },
+  IN_PROGRESS: { label: "En cours", color: "info", icon: <AutoModeIcon /> },
+  COMPLETED: { label: "Terminé", color: "success", icon: <CheckCircleOutlineIcon /> },
 };
 
 export default function TaskCard({
@@ -36,6 +38,7 @@ export default function TaskCard({
   description,
   dueDate,
 }: TaskCardProps) {
+
   const dateString = dueDate.toLocaleDateString("fr-FR");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedComponent, setSelectedComponent] =
@@ -43,8 +46,13 @@ export default function TaskCard({
   const open = Boolean(anchorEl);
   const [status, setStatus] = useState<keyof typeof statusMapping>("PENDING");
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setStatus(event.target.value as keyof typeof statusMapping);
+  const handleStatusChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newStatus: string
+  ) => {
+    if (newStatus !== null) {
+      setStatus(newStatus);
+    }
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -66,13 +74,37 @@ export default function TaskCard({
   };
 
   return (
-    <div>
+    <div style={{ marginRight: "8px"}}>
       <div>
         <Card variant="outlined">
           <CardContent className="flex flex-col gap-4">
             <div className="flex" style={{ justifyContent: "space-between" }}>
-              <div>
-                <Typography variant="h4">{title}</Typography>
+              <div className="items-center" style={{display: "flex", gap: "16px"}}>
+                <Typography variant="h5">{title}</Typography>
+                <ToggleButtonGroup
+                  value={status}
+                  exclusive
+                  onChange={handleStatusChange}
+                  aria-label="status"
+                  size="small"
+                >
+                  {Object.entries(statusMapping).map(([key, { label, color, icon }]) => (
+                    <Tooltip key={key} title={label}>
+                      <ToggleButton
+                        value={key}
+                        aria-label={label}
+                        color={color}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {icon}
+                      </ToggleButton>
+                    </Tooltip>
+                  ))}
+                </ToggleButtonGroup>
               </div>
               <div>
                 <IconButton onClick={handleClick} style={{ color: "#333" }}>
@@ -88,32 +120,9 @@ export default function TaskCard({
               <Typography variant="body2">{description}</Typography>
             </div>
             <div className="flex" style={{ justifyContent: "space-between" }}>
-              <Chip
-                icon={<CalendarMonthOutlinedIcon />}
-                label={dateString}
-                style={{ backgroundColor: "#F29A75" }}
-              />
-              <FormControl size="small">
-                <Select
-                  labelId="status-label"
-                  value={status}
-                  onChange={handleChange}
-                  renderValue={(selected) => (
-                    <Chip
-                      label={statusMapping[selected]?.label}
-                      color={statusMapping[selected]?.color}
-                    />
-                  )}
-                >
-                  {Object.entries(statusMapping).map(
-                    ([key, { label, color }]) => (
-                      <MenuItem key={key} value={key}>
-                        <Chip label={label} color={color} />
-                      </MenuItem>
-                    ),
-                  )}
-                </Select>
-              </FormControl>
+              <Typography variant="subtitle1" color="error" className="flex items-center">
+                Echeance : {dateString}
+              </Typography>
             </div>
           </CardContent>
         </Card>
