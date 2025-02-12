@@ -3,6 +3,8 @@
   "version": "0.3.1",
   "private": true,
   "scripts": {
+    "migrate": "prisma generate & prisma migrate dev",
+    "seed": "pnpx prisma db seed",
     "dev": "next dev --turbopack",
     "patch": "pnpm version patch --force --no-git-tag-version",
     "minor": "pnpm version minor --force --no-git-tag-version",
@@ -44,6 +46,7 @@
     "next-auth": "5.0.0-beta.25",
     "next-safe-action": "^7.10.3",
     "nuqs": "^2.3.2",
+    "p": "^0.2.0",
     "prettier": "^3.4.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -57,6 +60,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
+    "@faker-js/faker": "^9.5.0",
     "@tanstack/eslint-plugin-query": "^5.66.0",
     "@types/node": "^22.13.0",
     "@types/react": "^19",
@@ -67,8 +71,12 @@
     "postcss": "^8.5.1",
     "prisma": "^6.3.0",
     "tailwindcss": "^3.4.17",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "zod-prisma": "^0.5.4"
+  },
+  "prisma": {
+    "seed": "pnpx ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed/seed.ts"
   }
 }
