@@ -15,7 +15,6 @@ const GenerateAddTodoQuery = () => {
     title,
     slug,
     description: faker.commerce.productDescription(),
-    dueDate: faker.date.soon(),
   } satisfies Prisma.TodoCreateInput;
 };
 
@@ -58,31 +57,34 @@ export const AddAdminOnTodos = async () => {
     Math.ceil(todoWithoutAdmin.length * 0.7),
   );
 
-  const users = await prisma.user.findMany();
-
-  for (const todo of limitedTodos) {
-    const availableUsers = users.filter((user) =>
-      todo.members.some((member) => member.userId !== user.id),
-    );
-
-    if (availableUsers.length > 0) {
-      const randomUser =
-        availableUsers[Math.floor(Math.random() * availableUsers.length)];
-      console.log(
-        `🌱 ~ AddAdminOnTodo ~ user ${randomUser.id}, todo :${todo.slug}`,
-      );
-      await prisma.todo.update({
-        where: { id: todo.id },
-        data: {
-          members: {
-            create: {
-              userId: randomUser.id,
-              roles: ["ADMIN"],
-            },
+  const users = await prisma.user.findMany({
+    where: {
+      todos: {
+        none: {
+          todoId: {
+            in: limitedTodos.map((t) => t.id),
           },
         },
-      });
-    }
+      },
+    },
+  });
+
+  for (const todo of limitedTodos) {
+    const randomUser = users[Math.floor(Math.random() * users.length)];
+    console.log(
+      `🌱 ~ AddAdminOnTodo ~ user ${randomUser.id}, todo :${todo.slug}`,
+    );
+    await prisma.todo.update({
+      where: { id: todo.id },
+      data: {
+        members: {
+          create: {
+            userId: randomUser.id,
+            roles: ["ADMIN"],
+          },
+        },
+      },
+    });
   }
 };
 
@@ -104,33 +106,36 @@ export const AddMemberOnTodos = async () => {
 
   const limitedTodos = todoWithoutMember.slice(
     0,
-    Math.ceil(todoWithoutMember.length * 0.9),
+    Math.ceil(todoWithoutMember.length * 0.8),
   );
 
-  const users = await prisma.user.findMany();
-
-  for (const todo of limitedTodos) {
-    const availableUsers = users.filter((user) =>
-      todo.members.some((member) => member.userId !== user.id),
-    );
-
-    if (availableUsers.length > 0) {
-      const randomUser =
-        availableUsers[Math.floor(Math.random() * availableUsers.length)];
-      console.log(
-        `🌱 ~ AddMemberOnTodo ~ user ${randomUser.id}, todo :${todo.slug}`,
-      );
-      await prisma.todo.update({
-        where: { id: todo.id },
-        data: {
-          members: {
-            create: {
-              userId: randomUser.id,
-              roles: ["MEMBER"],
-            },
+  const users = await prisma.user.findMany({
+    where: {
+      todos: {
+        none: {
+          todoId: {
+            in: limitedTodos.map((t) => t.id),
           },
         },
-      });
-    }
+      },
+    },
+  });
+
+  for (const todo of limitedTodos) {
+    const randomUser = users[Math.floor(Math.random() * users.length)];
+    console.log(
+      `🌱 ~ AddMemberOnTodo ~ user ${randomUser.id}, todo :${todo.slug}`,
+    );
+    await prisma.todo.update({
+      where: { id: todo.id },
+      data: {
+        members: {
+          create: {
+            userId: randomUser.id,
+            roles: ["MEMBER"],
+          },
+        },
+      },
+    });
   }
 };

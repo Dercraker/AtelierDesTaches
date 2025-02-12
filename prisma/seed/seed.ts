@@ -1,5 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import { AddAdminOnTodos, CreateOwnerTodo } from "./todo.seed";
+import { AddTaskOnTodo } from "./task.seed";
+import {
+  AddAdminOnTodos,
+  AddMemberOnTodos,
+  CreateOwnerTodo,
+} from "./todo.seed";
 import { addUser } from "./user.seed";
 
 const prisma = new PrismaClient();
@@ -13,6 +18,8 @@ async function main() {
   }
 
   await AddAdminOnTodos();
+  await AddMemberOnTodos();
+  await AddTaskOnTodo();
 }
 
 const clearAll = async () => {
@@ -20,6 +27,7 @@ const clearAll = async () => {
 
   await prisma.todoMembership.deleteMany({});
   await prisma.todo.deleteMany({});
+  await prisma.task.deleteMany({});
   await prisma.user.deleteMany({});
 };
 

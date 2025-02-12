@@ -1,10 +1,5 @@
-import * as z from "zod";
-import {
-  CompleteTask,
-  RelatedTaskModel,
-  CompleteTodoMembership,
-  RelatedTodoMembershipModel,
-} from "./index";
+import * as z from "zod"
+import { CompleteTask, RelatedTaskModel, CompleteTodoMembership, RelatedTodoMembershipModel } from "./index"
 
 export const TodoModel = z.object({
   id: z.string(),
@@ -17,8 +12,8 @@ export const TodoModel = z.object({
 })
 
 export interface CompleteTodo extends z.infer<typeof TodoModel> {
-  tasks: CompleteTask[];
-  members: CompleteTodoMembership[];
+  tasks: CompleteTask[]
+  members: CompleteTodoMembership[]
 }
 
 /**
@@ -26,9 +21,7 @@ export interface CompleteTodo extends z.infer<typeof TodoModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedTodoModel: z.ZodSchema<CompleteTodo> = z.lazy(() =>
-  TodoModel.extend({
-    tasks: RelatedTaskModel.array(),
-    members: RelatedTodoMembershipModel.array(),
-  }),
-);
+export const RelatedTodoModel: z.ZodSchema<CompleteTodo> = z.lazy(() => TodoModel.extend({
+  tasks: RelatedTaskModel.array(),
+  members: RelatedTodoMembershipModel.array(),
+}))
