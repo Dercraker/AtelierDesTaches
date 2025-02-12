@@ -25,14 +25,15 @@ export default function RootLayout({ children }: LayoutParams) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       >
         <Providers>
-          <div className="font-[family-name:var(--font-geist-sans)]">
+          <div
+            className="font-[family-name:var(--font-geist-sans)]"
+            style={{ height: "calc(100% - 64px)" }}
+          >
             <MainNavBar />
-            <main className="flex items-center justify-center py-4">
-              {children}
-            </main>
+            <main className="mb-16 flex justify-center pt-4">{children}</main>
             <MainFooter />
           </div>
         </Providers>

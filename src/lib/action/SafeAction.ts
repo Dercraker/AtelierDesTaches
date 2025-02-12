@@ -33,6 +33,10 @@ export const authAction = createSafeActionClient({
   handleServerError,
 }).use(AuthMiddleware);
 
+/**
+ * Valide que l'utilisateur actuel soit bien auth, enregistrer au pret de la todo actuel
+ * @argument metadata: { roles : [] } -> Vérifie que l'utilisateur est le rôle indiquer pour faire l'action
+ */
 export const todoAction = createSafeActionClient({
   handleServerError,
   defineMetadataSchema() {
