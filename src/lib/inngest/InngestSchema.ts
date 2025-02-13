@@ -37,8 +37,6 @@ export const NewTaskAddedNotification = z.object({
 export const TaskUpdatedNotification = z.object({
   name: z.literal("TaskUpdatedNotification"),
   data: z.object({
-    todoId: z.string(),
-    userId: z.string(),
     taskId: z.string(),
   }),
 });
