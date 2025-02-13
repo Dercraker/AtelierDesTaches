@@ -1,9 +1,9 @@
 "use client";
-import AddTaskDialog from "@/components/AddTaskDialog";
-import AutoModeIcon from '@mui/icons-material/AutoMode';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import AddTaskDialog from "@/components/AddAndUpdateTaskDialog";
+import AutoModeIcon from "@mui/icons-material/AutoMode";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
+import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
 import {
   Card,
   CardContent,
@@ -28,9 +28,17 @@ const statusMapping: Record<
   string,
   { label: string; color: "warning" | "info" | "success"; icon: ReactElement }
 > = {
-  PENDING: { label: "En attente", color: "warning", icon: <PauseCircleOutlineIcon /> },
+  PENDING: {
+    label: "En attente",
+    color: "warning",
+    icon: <PauseCircleOutlineIcon />,
+  },
   IN_PROGRESS: { label: "En cours", color: "info", icon: <AutoModeIcon /> },
-  COMPLETED: { label: "Terminé", color: "success", icon: <CheckCircleOutlineIcon /> },
+  COMPLETED: {
+    label: "Terminé",
+    color: "success",
+    icon: <CheckCircleOutlineIcon />,
+  },
 };
 
 export default function TaskCard({
@@ -38,7 +46,6 @@ export default function TaskCard({
   description,
   dueDate,
 }: TaskCardProps) {
-
   const dateString = dueDate.toLocaleDateString("fr-FR");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedComponent, setSelectedComponent] =
@@ -48,7 +55,7 @@ export default function TaskCard({
 
   const handleStatusChange = (
     event: React.MouseEvent<HTMLElement>,
-    newStatus: string
+    newStatus: string,
   ) => {
     if (newStatus !== null) {
       setStatus(newStatus);
@@ -74,12 +81,15 @@ export default function TaskCard({
   };
 
   return (
-    <div style={{ marginRight: "8px"}}>
+    <div style={{ marginRight: "8px" }}>
       <div>
         <Card variant="outlined">
           <CardContent className="flex flex-col gap-4">
             <div className="flex" style={{ justifyContent: "space-between" }}>
-              <div className="items-center" style={{display: "flex", gap: "16px"}}>
+              <div
+                className="items-center"
+                style={{ display: "flex", gap: "16px" }}
+              >
                 <Typography variant="h5">{title}</Typography>
                 <ToggleButtonGroup
                   value={status}
@@ -88,22 +98,24 @@ export default function TaskCard({
                   aria-label="status"
                   size="small"
                 >
-                  {Object.entries(statusMapping).map(([key, { label, color, icon }]) => (
-                    <Tooltip key={key} title={label}>
-                      <ToggleButton
-                        value={key}
-                        aria-label={label}
-                        color={color}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {icon}
-                      </ToggleButton>
-                    </Tooltip>
-                  ))}
+                  {Object.entries(statusMapping).map(
+                    ([key, { label, color, icon }]) => (
+                      <Tooltip key={key} title={label}>
+                        <ToggleButton
+                          value={key}
+                          aria-label={label}
+                          color={color}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {icon}
+                        </ToggleButton>
+                      </Tooltip>
+                    ),
+                  )}
                 </ToggleButtonGroup>
               </div>
               <div>
@@ -120,7 +132,11 @@ export default function TaskCard({
               <Typography variant="body2">{description}</Typography>
             </div>
             <div className="flex" style={{ justifyContent: "space-between" }}>
-              <Typography variant="subtitle1" color="error" className="flex items-center">
+              <Typography
+                variant="subtitle1"
+                color="error"
+                className="flex items-center"
+              >
                 Echeance : {dateString}
               </Typography>
             </div>

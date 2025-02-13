@@ -4,15 +4,25 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  Chip,
 } from "@mui/material";
 import Link from "next/link";
 
 type HomeCardProps = {
   title: string;
   description: string;
+  isLog: boolean;
+  isOwner: boolean;
+  isPublic: boolean;
 };
 
-export default function HomeCard({ title, description }: HomeCardProps) {
+export default function HomeCard({
+  title,
+  description,
+  isLog,
+  isOwner,
+  isPublic,
+}: HomeCardProps) {
   return (
     <Card sx={{ maxWidth: 345 }} variant="outlined">
       <CardMedia
@@ -22,9 +32,37 @@ export default function HomeCard({ title, description }: HomeCardProps) {
         alt="Random Image"
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography>
+        {isLog ? (
+          <div className="flex items-center gap-4">
+            <Typography
+              gutterBottom
+              variant="h5"
+              style={{ marginBottom: "0px" }}
+            >
+              {title}
+            </Typography>
+            <div>
+              {isPublic ? (
+                <Chip label="Public" color="success" size="small" />
+              ) : (
+                <Chip label="Privé" color="error" size="small" />
+              )}
+              {isOwner ? (
+                <Chip
+                  label="Propriétaire"
+                  size="small"
+                  style={{ marginLeft: "4px", backgroundColor: "#facacd" }}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+        ) : (
+          <Typography gutterBottom variant="h5" component="div">
+            {title}
+          </Typography>
+        )}
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {description}
         </Typography>

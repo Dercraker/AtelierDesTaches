@@ -72,7 +72,10 @@ type AddTaskDialogProps = {
   handleClose: () => void;
 };
 
-export default function MainNavBar({ open, handleClose }: AddTaskDialogProps) {
+export default function AddAndUpdateTaskDialog({
+  open,
+  handleClose,
+}: AddTaskDialogProps) {
   return (
     <Dialog
       fullWidth
