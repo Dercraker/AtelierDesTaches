@@ -29,11 +29,13 @@ export default function RootLayout({ children }: LayoutParams) {
       >
         <Providers>
           <div
-            className="font-[family-name:var(--font-geist-sans)]"
+            className="flex flex-col font-[family-name:var(--font-geist-sans)]"
             style={{ height: "calc(100% - 64px)" }}
           >
             <MainNavBar />
-            <main className="mb-16 flex justify-center pt-4">{children}</main>
+            <main className="mb-16 flex grow justify-center pt-4">
+              {children}
+            </main>
             <MainFooter />
           </div>
         </Providers>

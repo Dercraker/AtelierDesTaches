@@ -7,7 +7,12 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-export default function HomeCardComponent() {
+type HomeCardProps = {
+  title: string;
+  description: string;
+};
+
+export default function HomeCard({ title, description }: HomeCardProps) {
   return (
     <Card sx={{ maxWidth: 345 }} variant="outlined">
       <CardMedia
@@ -18,11 +23,10 @@ export default function HomeCardComponent() {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          TodoList Name
+          {title}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {description}
         </Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "end" }}>
