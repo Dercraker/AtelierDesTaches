@@ -3,9 +3,9 @@ import { z } from "zod";
 export const InvitedTodoNotification = z.object({
   name: z.literal("InvitedTodoNotification"),
   data: z.object({
-    todoId: z.string(),
+    token: z.string(),
+    todoSlug: z.string(),
     userId: z.string(),
-    adminId: z.string(),
   }),
 });
 
