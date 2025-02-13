@@ -1,6 +1,6 @@
 {
   "name": "atelier-des-taches",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": true,
   "scripts": {
     "migrate": "prisma generate & prisma migrate dev",
@@ -78,6 +78,6 @@
     "zod-prisma": "^0.5.4"
   },
   "prisma": {
-    "seed": "pnpx ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed/seed.ts"
+    "seed": "pnpm tsx prisma/seed/seed.ts"
   }
 }
