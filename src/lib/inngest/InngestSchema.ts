@@ -30,8 +30,6 @@ export const RoleUpdated = z.object({
 export const NewTaskAddedNotification = z.object({
   name: z.literal("NewTaskAddedNotification"),
   data: z.object({
-    todoId: z.string(),
-    userId: z.string(),
     taskId: z.string(),
   }),
 });
@@ -48,8 +46,8 @@ export const TaskUpdatedNotification = z.object({
 export const TaskDeletedNotification = z.object({
   name: z.literal("TaskDeletedNotification"),
   data: z.object({
-    todoId: z.string(),
+    todoSlug: z.string(),
     userId: z.string(),
-    taskId: z.string(),
+    taskName: z.string(),
   }),
 });
