@@ -1,10 +1,55 @@
 import { z } from "zod";
 
-export const SendNewTaskNotification = z.object({
-  name: z.literal("task:new:notification"),
+export const InvitedTodoNotification = z.object({
+  name: z.literal("InvitedTodoNotification"),
   data: z.object({
-    authorId: z.string(),
-    taskId: z.string(),
     todoId: z.string(),
+    userId: z.string(),
+    adminId: z.string(),
+  }),
+});
+
+export const RemovedFromTodoNotification = z.object({
+  name: z.literal("RemovedFromTodoNotification"),
+  data: z.object({
+    todoId: z.string(),
+    userId: z.string(),
+    adminId: z.string(),
+  }),
+});
+
+export const RoleUpdated = z.object({
+  name: z.literal("RoleUpdated"),
+  data: z.object({
+    todoId: z.string(),
+    userId: z.string(),
+    adminId: z.string(),
+  }),
+});
+
+export const NewTaskAddedNotification = z.object({
+  name: z.literal("NewTaskAddedNotification"),
+  data: z.object({
+    todoId: z.string(),
+    userId: z.string(),
+    taskId: z.string(),
+  }),
+});
+
+export const TaskUpdatedNotification = z.object({
+  name: z.literal("TaskUpdatedNotification"),
+  data: z.object({
+    todoId: z.string(),
+    userId: z.string(),
+    taskId: z.string(),
+  }),
+});
+
+export const TaskDeletedNotification = z.object({
+  name: z.literal("TaskDeletedNotification"),
+  data: z.object({
+    todoId: z.string(),
+    userId: z.string(),
+    taskId: z.string(),
   }),
 });
