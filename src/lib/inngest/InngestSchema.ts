@@ -12,7 +12,7 @@ export const InvitedTodoNotification = z.object({
 export const RemovedFromTodoNotification = z.object({
   name: z.literal("RemovedFromTodoNotification"),
   data: z.object({
-    todoId: z.string(),
+    todoSlug: z.string(),
     userId: z.string(),
     adminId: z.string(),
   }),
