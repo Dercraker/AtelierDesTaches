@@ -19,6 +19,7 @@ export const GetPaginatedTodosQuery = async ({
       deletedAt: null,
       ...where,
     },
+    ...(cursor ? { skip: 1 } : {}),
     cursor,
     take,
   });

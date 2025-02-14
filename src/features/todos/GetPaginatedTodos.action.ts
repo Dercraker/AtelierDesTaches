@@ -1,6 +1,6 @@
 "use server";
 
-import { authAction } from "@/lib/action/SafeAction";
+import { action } from "@/lib/action/SafeAction";
 import { TodoModel } from "@/types/prisma";
 import { z } from "zod";
 import { GetPaginatedTodosQuery } from "./GetPaginatedTodos.query";
@@ -17,9 +17,9 @@ const GetPaginatedTodosActionSchema = z.object({
   take: z.number().min(1).optional(),
 });
 
-export const GetPaginatedTodosAction = authAction
+export const GetPaginatedTodosAction = action
   .schema(GetPaginatedTodosActionSchema)
-  .action(async ({ parsedInput: { where, lastTodoSlug, take }, ctx }) => {
+  .action(async ({ parsedInput: { where, lastTodoSlug, take } }) => {
     const todos = await GetPaginatedTodosQuery({
       where: {
         ...where,
@@ -31,9 +31,12 @@ export const GetPaginatedTodosAction = authAction
             }
           : {}),
       },
-      ...(lastTodoSlug ? { cursor: { slug: lastTodoSlug } } : {}),
+      ...(lastTodoSlug
+        ? {
+            cursor: { slug: lastTodoSlug },
+          }
+        : {}),
       take,
     });
-
     return z.array(TodoModel).parse(todos);
   });
