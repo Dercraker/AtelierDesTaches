@@ -9,7 +9,7 @@ import Link from "next/link";
 
 type HomeCardProps = {
   title: string;
-  description: string;
+  description?: string;
 };
 
 export default function HomeCard({ title, description }: HomeCardProps) {
@@ -18,8 +18,8 @@ export default function HomeCard({ title, description }: HomeCardProps) {
       <CardMedia
         component="img"
         height="140"
-        image="https://static.vecteezy.com/ti/vecteur-libre/p1/13160044-fond-d-ecran-de-vecteur-de-paysage-fond-de-printemps-ou-d-automne-vectoriel.jpg"
-        alt="Random Image"
+        image={"https://via.placeholder.com/345x140"}
+        alt={title}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

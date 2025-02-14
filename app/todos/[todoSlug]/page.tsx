@@ -55,37 +55,40 @@ export default function Todo() {
     description: string;
     dueDate: Date;
   };
-  
-  const [tasks, setTasks] = useState<Task[]>([{
-    id: 1,
-    title: "Faire les courses",
-    description: "Acheter des fruits, légumes et du pain.",
-    dueDate: new Date("2025-02-14T09:00:00"),
-  },
-  {
-    id: 2,
-    title: "Réunion avec l'équipe",
-    description: "Discuter des prochaines étapes du projet.",
-    dueDate: new Date("2025-02-15T14:00:00"),
-  },
-  {
-    id: 3,
-    title: "Répondre aux emails",
-    description: "Répondre aux emails en attente de la journée.",
-    dueDate: new Date("2025-02-13T12:00:00"),
-  },
-  {
-    id: 4,
-    title: "Préparer la présentation",
-    description: "Créer une présentation PowerPoint pour la réunion de demain.",
-    dueDate: new Date("2025-02-14T16:00:00"),
-  },
-  {
-    id: 5,
-    title: "Nettoyer la maison",
-    description: "Passer l'aspirateur et nettoyer les surfaces.",
-    dueDate: new Date("2025-02-16T10:00:00"),
-  },]);
+
+  const [tasks, setTasks] = useState<Task[]>([
+    {
+      id: 1,
+      title: "Faire les courses",
+      description: "Acheter des fruits, légumes et du pain.",
+      dueDate: new Date("2025-02-14T09:00:00"),
+    },
+    {
+      id: 2,
+      title: "Réunion avec l'équipe",
+      description: "Discuter des prochaines étapes du projet.",
+      dueDate: new Date("2025-02-15T14:00:00"),
+    },
+    {
+      id: 3,
+      title: "Répondre aux emails",
+      description: "Répondre aux emails en attente de la journée.",
+      dueDate: new Date("2025-02-13T12:00:00"),
+    },
+    {
+      id: 4,
+      title: "Préparer la présentation",
+      description:
+        "Créer une présentation PowerPoint pour la réunion de demain.",
+      dueDate: new Date("2025-02-14T16:00:00"),
+    },
+    {
+      id: 5,
+      title: "Nettoyer la maison",
+      description: "Passer l'aspirateur et nettoyer les surfaces.",
+      dueDate: new Date("2025-02-16T10:00:00"),
+    },
+  ]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -103,7 +106,10 @@ export default function Todo() {
             </PrimaryButton>
             <AddTaskDialog open={open} handleClose={() => setOpen(false)} />
           </div>
-          <div className="flex flex-col gap-6 overflow-auto" style={{ height: "calc(100vh - 310px)"}}>
+          <div
+            className="flex flex-col gap-6 overflow-auto"
+            style={{ height: "calc(100vh - 310px)" }}
+          >
             {tasks.length > 0 ? (
               tasks.map((task) => (
                 <TaskCard
