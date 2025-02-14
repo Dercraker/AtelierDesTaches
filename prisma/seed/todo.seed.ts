@@ -54,7 +54,7 @@ export const AddAdminOnTodos = async () => {
 
   const limitedTodos = todoWithoutAdmin.slice(
     0,
-    Math.ceil(todoWithoutAdmin.length * 0.7),
+    Math.ceil(todoWithoutAdmin.length * 0.5),
   );
 
   const users = await prisma.user.findMany({
@@ -122,7 +122,8 @@ export const AddMemberOnTodos = async () => {
   });
 
   for (const todo of limitedTodos) {
-    const randomUser = users[Math.floor(Math.random() * users.length)];
+    const randomUser =
+      users[faker.number.int({ min: 0, max: users.length - 1 })];
     console.log(
       `🌱 ~ AddMemberOnTodo ~ user ${randomUser.id}, todo :${todo.slug}`,
     );

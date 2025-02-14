@@ -1,8 +1,8 @@
 import { TodoMembershipRole } from "@prisma/client";
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
-import { AuthError } from "../auth/helper";
-import { logger } from "../logger";
+import { AuthError } from "@/lib/auth/helper";
+import { logger } from "@/lib/logger";
 import { AuthMiddleware, TodoMiddleware } from "./ActionMiddleware";
 
 export class ActionError extends Error {}
