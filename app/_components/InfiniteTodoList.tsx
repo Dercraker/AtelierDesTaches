@@ -1,6 +1,6 @@
 "use client";
 
-import HomeCardComponent from "@/components/HomeCardComponent";
+import HomeCard from "@/components/HomeCard";
 import { GetPaginatedTodosAction } from "@/features/todos/GetPaginatedTodos.action";
 import { isActionSuccessful } from "@/lib/action/ActionUtils";
 import { Typography } from "@mui/material";
@@ -48,9 +48,13 @@ export const InfiniteTodoList = () => {
       {data?.pages.map((page, idx) => (
         <React.Fragment key={idx}>
           {page.data.map(({ slug, title, description }) => (
-            <HomeCardComponent
+            <HomeCard
               key={slug}
-              todo={{ title, description: description ?? undefined }}
+              title={title}
+              description={description ?? undefined}
+              isLog={false}
+              isOwner={false}
+              isPublic={true}
             />
           ))}
         </React.Fragment>

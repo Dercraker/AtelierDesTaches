@@ -148,12 +148,4 @@ export default [
       "**/types/prisma/**.ts",
     ],
   },
-
-  // INNGEST config
-  {
-    plugins: ["@inngest"],
-    extends: ["plugin:@inngest/recommended"],
-    //https://www.npmjs.com/package/@inngest/eslint-plugin
-    rules: {},
-  },
 ];

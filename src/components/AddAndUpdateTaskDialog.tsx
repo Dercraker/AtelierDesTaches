@@ -1,10 +1,12 @@
+"use client";
+
 import {
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Dialog,
-  TextField,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -65,15 +67,15 @@ const PrimaryButton = styled(Button)({
   },
 });
 
-type SubscriptionDialogProps = {
+type AddTaskDialogProps = {
   open: boolean;
   handleClose: () => void;
 };
 
-export default function MainNavBar({
+export default function AddAndUpdateTaskDialog({
   open,
   handleClose,
-}: SubscriptionDialogProps) {
+}: AddTaskDialogProps) {
   return (
     <Dialog
       fullWidth
