@@ -2,7 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { TodoModel } from "@/types/prisma";
 import type { Prisma } from "@prisma/client";
 
-type GetTodoBySlugQueryProps = { where: Prisma.TodoWhereUniqueInput };
+type GetTodoBySlugQueryProps = {
+  where: Prisma.TodoWhereUniqueInput;
+};
 
 export const GetTodoBySlugQuery = async ({
   where,

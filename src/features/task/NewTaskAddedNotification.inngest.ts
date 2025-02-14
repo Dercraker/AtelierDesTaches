@@ -1,7 +1,7 @@
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
 import { RelatedTaskModel, UserModel } from "@/types/prisma";
-import { GetTodoMembershipQuery } from "../todo/multiUser/GetTodoMembership.query";
+import { GetTodoMembershipsQuery } from "../todo/multiUser/GetTodoMemberships.query";
 import { GetTaskQuery } from "./crudBase/GetTask.query";
 
 export const NewTaskAddedNotificationInngest = inngest.createFunction(
@@ -27,7 +27,7 @@ export const NewTaskAddedNotificationInngest = inngest.createFunction(
     });
 
     const members = await step.run("GetMemberToNotify", async () => {
-      const memberShips = await GetTodoMembershipQuery({
+      const memberShips = await GetTodoMembershipsQuery({
         where: {
           todoId: task.todoId,
         },

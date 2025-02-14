@@ -21,7 +21,7 @@ export const RemovedFromTodoNotification = z.object({
 export const RoleUpdated = z.object({
   name: z.literal("RoleUpdated"),
   data: z.object({
-    todoId: z.string(),
+    todoSlug: z.string(),
     userId: z.string(),
     adminId: z.string(),
   }),

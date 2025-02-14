@@ -3,6 +3,7 @@ import { TaskDeletedNotificationInngest } from "@/features/task/TaskDeletedNotif
 import { TaskUpdatedNotificationInngest } from "@/features/task/TaskUpdatedNotification.inngest";
 import { InvitationTodoNotificationInngest } from "@/features/todo/InvitationTodoNotification.inngest";
 import { RemovedFromTodoNotificationInngest } from "@/features/todo/RemovedFromTodoNotification.inngest";
+import { RoleUpdatedInngest } from "@/features/todo/RoleUpdated.inngest";
 import { inngest } from "@/lib/inngest/InngestClient";
 import { serve } from "inngest/next";
 
@@ -16,5 +17,6 @@ export const { GET, POST, PUT } = serve({
     TaskUpdatedNotificationInngest,
     InvitationTodoNotificationInngest,
     RemovedFromTodoNotificationInngest,
+    RoleUpdatedInngest,
   ],
 });

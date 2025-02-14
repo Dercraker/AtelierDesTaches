@@ -1,7 +1,7 @@
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
 import { GetTodoBySlugQuery } from "../todo/crudBase/GetTodoBySlug.query";
-import { GetTodoMembershipQuery } from "../todo/multiUser/GetTodoMembership.query";
+import { GetTodoMembershipsQuery } from "../todo/multiUser/GetTodoMemberships.query";
 import { GetUserQuery } from "../user/GetUserQuery";
 
 export const TaskDeletedNotificationInngest = inngest.createFunction(
@@ -29,7 +29,7 @@ export const TaskDeletedNotificationInngest = inngest.createFunction(
     });
 
     const members = await step.run("GetTodoMembers", async () => {
-      return await GetTodoMembershipQuery({
+      return await GetTodoMembershipsQuery({
         where: {
           todoId: todo.id,
         },

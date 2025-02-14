@@ -1,6 +1,6 @@
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
-import { GetTodoMembershipQuery } from "../todo/multiUser/GetTodoMembership.query";
+import { GetTodoMembershipsQuery } from "../todo/multiUser/GetTodoMemberships.query";
 import { GetTaskQuery } from "./crudBase/GetTask.query";
 
 export const TaskUpdatedNotificationInngest = inngest.createFunction(
@@ -26,7 +26,7 @@ export const TaskUpdatedNotificationInngest = inngest.createFunction(
     const todo = task?.todo;
 
     const members = await step.run("GetTodoMembership", async () => {
-      return await GetTodoMembershipQuery({
+      return await GetTodoMembershipsQuery({
         where: {
           todoId: todo?.id,
         },

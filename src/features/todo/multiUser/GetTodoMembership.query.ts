@@ -1,27 +1,30 @@
 import { prisma } from "@/lib/prisma";
-import { RelatedTodoMembershipModel } from "@/types/prisma";
+import { TodoMembershipModel } from "@/types/prisma";
 import type { Prisma } from "@prisma/client";
 
 type GetTodoMembershipQueryProps = {
-  where: Prisma.TodoMembershipWhereInput;
+  where: Prisma.TodoMembershipWhereUniqueInput;
+  select?: Prisma.TodoMembershipSelect;
   include?: Prisma.TodoMembershipInclude;
 };
 
 export const GetTodoMembershipQuery = async ({
   where,
   include,
+  select,
 }: GetTodoMembershipQueryProps) => {
-  const todoMembership = await prisma.todoMembership.findMany({
+  const membership = await prisma.todoMembership.findUnique({
     where: {
-      todo: {
-        deletedAt: null,
-      },
+      deletedAt: null,
       ...where,
+    },
+    select: {
+      ...select,
     },
     include: {
       ...include,
     },
   });
 
-  return todoMembership.map((m) => RelatedTodoMembershipModel.parse(m));
+  return TodoMembershipModel.parse(membership);
 };
