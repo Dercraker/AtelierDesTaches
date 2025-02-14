@@ -5,10 +5,12 @@ import { GetPaginatedTodosAction } from "@/features/todos/GetPaginatedTodos.acti
 import { isActionSuccessful } from "@/lib/action/ActionUtils";
 import { Typography } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 export const InfiniteTodoList = () => {
+  const session = useSession();
   const [cursor, SetCursor] = useState<string>();
   const { ref: inViewRef, inView } = useInView();
   const pageSize = 3;
@@ -19,6 +21,9 @@ export const InfiniteTodoList = () => {
       const result = await GetPaginatedTodosAction({
         take: pageSize,
         lastTodoSlug: cursor,
+        ...(session.data?.user?.id && {
+          includePrivate: session.data?.user?.id,
+        }),
       });
 
       if (!isActionSuccessful(result)) throw new Error(result?.serverError);
@@ -47,16 +52,23 @@ export const InfiniteTodoList = () => {
     <>
       {data?.pages.map((page, idx) => (
         <React.Fragment key={idx}>
-          {page.data.map(({ slug, title, description }) => (
-            <HomeCard
-              key={slug}
-              title={title}
-              description={description ?? undefined}
-              isLog={false}
-              isOwner={false}
-              isPublic={true}
-            />
-          ))}
+          {page.data.map(({ slug, title, description, members, state }) => {
+            const IsOwner =
+              members
+                .find((m) => m.userId === session.data?.user?.id)
+                ?.roles.includes("OWNER") ?? false;
+
+            return (
+              <HomeCard
+                key={slug}
+                title={title}
+                description={description ?? undefined}
+                isLog={session.status === "authenticated"}
+                isOwner={IsOwner}
+                isPublic={state === "PUBLIC"}
+              />
+            );
+          })}
         </React.Fragment>
       ))}
 

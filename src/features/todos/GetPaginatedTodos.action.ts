@@ -1,7 +1,6 @@
 "use server";
 
 import { action } from "@/lib/action/SafeAction";
-import { TodoModel } from "@/types/prisma";
 import { z } from "zod";
 import { GetPaginatedTodosQuery } from "./GetPaginatedTodos.query";
 
@@ -13,30 +12,53 @@ const GetPaginatedTodosActionSchema = z.object({
       ownerName: z.string().optional(),
     })
     .optional(),
+  includePrivate: z.string().optional(),
   lastTodoSlug: z.string().optional(),
   take: z.number().min(1).optional(),
 });
 
 export const GetPaginatedTodosAction = action
   .schema(GetPaginatedTodosActionSchema)
-  .action(async ({ parsedInput: { where, lastTodoSlug, take } }) => {
-    const todos = await GetPaginatedTodosQuery({
-      where: {
-        ...where,
-        ...(where?.ownerName
-          ? {
-              owner: {
-                name: where.ownerName,
+  .action(
+    async ({ parsedInput: { where, lastTodoSlug, take, includePrivate } }) => {
+      console.log("🚀 ~ { where, lastTodoSlug, take, includePrivate }:", {
+        where,
+        lastTodoSlug,
+        take,
+        includePrivate,
+      });
+      const todos = await GetPaginatedTodosQuery({
+        where: {
+          ...where,
+          ...(where?.ownerName
+            ? {
+                owner: {
+                  name: where.ownerName,
+                },
+              }
+            : {}),
+          ...(includePrivate && {
+            OR: [
+              { state: "PUBLIC" },
+              {
+                state: "PRIVATE",
+                members: {
+                  some: {
+                    userId: includePrivate,
+                  },
+                },
               },
+            ],
+          }),
+        },
+        ...(lastTodoSlug
+          ? {
+              cursor: { slug: lastTodoSlug },
             }
           : {}),
-      },
-      ...(lastTodoSlug
-        ? {
-            cursor: { slug: lastTodoSlug },
-          }
-        : {}),
-      take,
-    });
-    return z.array(TodoModel).parse(todos);
-  });
+        take,
+      });
+      console.log("🚀 ~ todos:", todos);
+      return todos;
+    },
+  );
