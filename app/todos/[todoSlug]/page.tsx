@@ -1,8 +1,10 @@
 "use client";
 
-import AddTaskDialog from "@/components/AddTaskDialog";
+import AddAndUpdateTaskDialog from "@/components/AddAndUpdateTaskDialog";
+import AddAndUpdateTodoDialog from "@/components/AddAndUpdateTodoDialog";
 import TaskCard from "@/components/TaskCard";
 import AddIcon from "@mui/icons-material/Add";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Button,
   Card,
@@ -10,6 +12,9 @@ import {
   CardContent,
   Divider,
   Typography,
+  IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
@@ -48,6 +53,10 @@ export default function Todo() {
   const [todoDescription, setTodoDescription] = useState(
     "Quisque ac enim at lectus vehicula venenatis. Donec sed facilisis ligula. Maecenas a tincidunt mi. Aliquam eu faucibus eros, at pulvinar mi. Morbi ut ex molestie, pharetra urna eget, eleifend sem. Proin pulvinar eget augue sed gravida. Integer sed feugiat lacus, nec bibendum orci.",
   );
+  const [selectedComponent, setSelectedComponent] =
+    useState<React.ReactNode>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const openTodo = Boolean(anchorEl);
 
   type Task = {
     id: number;
@@ -94,6 +103,24 @@ export default function Todo() {
     setOpen(true);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleUpdate = () => {
+    setSelectedComponent(
+      <AddAndUpdateTodoDialog
+        open={true}
+        handleClose={() => setSelectedComponent(null)}
+      />,
+    );
+    handleClose();
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   return (
     <div>
       <div className="mx-6 flex h-full gap-6">
@@ -104,7 +131,10 @@ export default function Todo() {
             <PrimaryButton startIcon={<AddIcon />} onClick={handleClickOpen}>
               Ajouter une tâche
             </PrimaryButton>
-            <AddTaskDialog open={open} handleClose={() => setOpen(false)} />
+            <AddAndUpdateTaskDialog
+              open={open}
+              handleClose={() => setOpen(false)}
+            />
           </div>
           <div
             className="flex flex-col gap-6 overflow-auto"
@@ -127,7 +157,23 @@ export default function Todo() {
         <div className="flex h-full w-1/2 items-center">
           <Card variant="outlined">
             <CardContent className="flex flex-col gap-4">
-              <Typography variant="h4">{todoName}</Typography>
+              <div className="flex justify-between">
+                <Typography variant="h4">{todoName}</Typography>
+                <div>
+                  <IconButton onClick={handleClick} style={{ color: "#333" }}>
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={openTodo}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleUpdate}>Modifier</MenuItem>
+                    <MenuItem onClick={handleClose}>Supprimer</MenuItem>
+                  </Menu>
+                </div>
+              </div>
+
               <Typography
                 gutterBottom
                 variant="h5"
@@ -143,6 +189,7 @@ export default function Todo() {
           </Card>
         </div>
       </div>
+      <div>{selectedComponent}</div>
     </div>
   );
 }

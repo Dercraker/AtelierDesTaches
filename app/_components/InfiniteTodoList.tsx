@@ -52,6 +52,9 @@ export const InfiniteTodoList = () => {
               key={slug}
               title={title}
               description={description ?? undefined}
+              isLog={false}
+              isOwner={false}
+              isPublic={true}
             />
           ))}
         </React.Fragment>

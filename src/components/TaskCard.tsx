@@ -1,5 +1,5 @@
 "use client";
-import AddTaskDialog from "@/components/AddTaskDialog";
+import AddTaskDialog from "@/components/AddAndUpdateTaskDialog";
 import AutoModeIcon from "@mui/icons-material/AutoMode";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
