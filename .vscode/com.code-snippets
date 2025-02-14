@@ -1,5 +1,6 @@
 {
   "component": {
+    "prefix": "com",
     "description": "Create base TypeScript component depending on the file name",
     "scope": "javascriptreact,typescriptreact",
     "body": [
