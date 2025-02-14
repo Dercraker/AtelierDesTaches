@@ -1,21 +1,10 @@
 "use client";
 
 import AddAndUpdateTaskDialog from "@/components/AddAndUpdateTaskDialog";
-import AddAndUpdateTodoDialog from "@/components/AddAndUpdateTodoDialog";
 import TaskCard from "@/components/TaskCard";
+import TodoCard from "@/components/TodoCard";
 import AddIcon from "@mui/icons-material/Add";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-  IconButton,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import { Button, Divider, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 
@@ -47,16 +36,8 @@ const PrimaryButton = styled(Button)({
   },
 });
 
-export default function Todo() {
+export default function TodoPage() {
   const [open, setOpen] = useState(false);
-  const [todoName, setTodoName] = useState("Todo Name");
-  const [todoDescription, setTodoDescription] = useState(
-    "Quisque ac enim at lectus vehicula venenatis. Donec sed facilisis ligula. Maecenas a tincidunt mi. Aliquam eu faucibus eros, at pulvinar mi. Morbi ut ex molestie, pharetra urna eget, eleifend sem. Proin pulvinar eget augue sed gravida. Integer sed feugiat lacus, nec bibendum orci.",
-  );
-  const [selectedComponent, setSelectedComponent] =
-    useState<React.ReactNode>(null);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const openTodo = Boolean(anchorEl);
 
   type Task = {
     id: number;
@@ -103,29 +84,11 @@ export default function Todo() {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleUpdate = () => {
-    setSelectedComponent(
-      <AddAndUpdateTodoDialog
-        open={true}
-        handleClose={() => setSelectedComponent(null)}
-      />,
-    );
-    handleClose();
-  };
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   return (
     <div>
       <div className="mx-6 flex h-full gap-6">
         <div className="flex h-full w-1/2 flex-col gap-6">
-          <h1>Todo App</h1>
+          <Typography variant="h4">Liste des tâches</Typography>
           <Divider />
           <div>
             <PrimaryButton startIcon={<AddIcon />} onClick={handleClickOpen}>
@@ -138,7 +101,7 @@ export default function Todo() {
           </div>
           <div
             className="flex flex-col gap-6 overflow-auto"
-            style={{ height: "calc(100vh - 310px)" }}
+            style={{ height: "calc(100vh - 325px)" }}
           >
             {tasks.length > 0 ? (
               tasks.map((task) => (
@@ -155,41 +118,9 @@ export default function Todo() {
           </div>
         </div>
         <div className="flex h-full w-1/2 items-center">
-          <Card variant="outlined">
-            <CardContent className="flex flex-col gap-4">
-              <div className="flex justify-between">
-                <Typography variant="h4">{todoName}</Typography>
-                <div>
-                  <IconButton onClick={handleClick} style={{ color: "#333" }}>
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={openTodo}
-                    onClose={handleClose}
-                  >
-                    <MenuItem onClick={handleUpdate}>Modifier</MenuItem>
-                    <MenuItem onClick={handleClose}>Supprimer</MenuItem>
-                  </Menu>
-                </div>
-              </div>
-
-              <Typography
-                gutterBottom
-                variant="h5"
-                sx={{ color: "text.secondary", fontSize: 14 }}
-              >
-                Description
-              </Typography>
-              <Typography component="div">{todoDescription}</Typography>
-            </CardContent>
-            <CardActions>
-              <PrimaryButton>S'abonner</PrimaryButton>
-            </CardActions>
-          </Card>
+          <TodoCard isOwner={true} isPublic={false} />
         </div>
       </div>
-      <div>{selectedComponent}</div>
     </div>
   );
 }

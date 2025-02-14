@@ -12,7 +12,7 @@
   "[txt]": {
     "editor.wordWrap": "on"
   },
-  "files.autoSave": "onFocusChange",
+  "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 2000,
   "files.enableTrash": true,
   "files.exclude": {

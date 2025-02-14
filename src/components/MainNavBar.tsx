@@ -6,21 +6,18 @@ import {
   Box,
   Button,
   IconButton,
-  Menu,
-  MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import { styled } from "@mui/material/styles";
 import Image from "next/image";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const pages = [
   { name: "DashBoard", path: "/dashboard" },
   { name: "Profile", path: "/profile" },
-  { name: "Logout", path: "/logout" },
+  { name: "Deconnexion", path: "/" },
 ];
 
 const OutlinedButton = styled(Button)({
@@ -52,7 +49,7 @@ export default function MainNavBar() {
       style={{ backgroundColor: "#ea642a", height: "fit-content" }}
     >
       <Toolbar className="flex items-center justify-between">
-        <div className="flex justify-end">
+        <div className="flex">
           <Image
             src="/logo_atelier_des_taches_blanc.svg"
             alt="logo atelier des tâches"
@@ -63,6 +60,7 @@ export default function MainNavBar() {
             variant="h6"
             noWrap
             component="a"
+            href={alreadyLog ? "/dashboard" : "/"}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -72,6 +70,7 @@ export default function MainNavBar() {
               color: "#fff",
               textDecoration: "none",
             }}
+            style={{ alignItems: "end" }}
           >
             Atelier des tâches
           </Typography>

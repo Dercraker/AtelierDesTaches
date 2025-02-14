@@ -3,7 +3,7 @@
 import HomeCard from "@/components/HomeCard";
 import AddAndUpdateTodoDialog from "@/components/AddAndUpdateTodoDialog";
 import AddIcon from "@mui/icons-material/Add";
-import { Button, Divider } from "@mui/material";
+import { Button, Divider, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 
@@ -87,7 +87,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1>Todo App</h1>
+      <Typography variant="h3">Dashboard</Typography>
       <Divider />
       <AddAndUpdateTodoDialog open={open} handleClose={() => setOpen(false)} />
       <PrimaryButton
