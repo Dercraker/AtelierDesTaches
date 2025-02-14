@@ -1,6 +1,6 @@
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
-import { GetUserQuery } from "../user/GetUserQuery";
+import { GetUserQuery } from "@/features/user/GetUserQuery";
 import { GetTodoBySlugQuery } from "./crudBase/GetTodoBySlug.query";
 import { GetTodoMembershipQuery } from "./multiUser/GetTodoMembership.query";
 
@@ -20,25 +20,24 @@ export const RoleUpdatedInngest = inngest.createFunction(
       }),
     );
 
-    const user = await step.run(
-      "GetUserById",
-      async () =>
-        await GetUserQuery({
-          where: {
-            id: event.data.userId,
-          },
-        }),
-    );
+    const user = await step.run("GetUserById", async () => {
+      const user = await GetUserQuery({
+        where: {
+          id: event.data.userId,
+        },
+      });
+      return user;
+    });
 
-    const admin = await step.run(
-      "GetAdminById",
-      async () =>
-        await GetUserQuery({
-          where: {
-            id: event.data.adminId,
-          },
-        }),
-    );
+    const admin = await step.run("GetAdminById", async () => {
+      const admin = await GetUserQuery({
+        where: {
+          id: event.data.adminId,
+        },
+      });
+
+      return admin;
+    });
 
     const memberShip = await step.run("GetUserMemberShip", async () =>
       GetTodoMembershipQuery({

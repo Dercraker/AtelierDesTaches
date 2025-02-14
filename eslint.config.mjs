@@ -43,6 +43,7 @@ export default [
     ignores: [".next/"],
   },
   ...fixupConfigRules(compat.extends("plugin:@next/next/core-web-vitals")),
+
   // Rules config
   {
     rules: {
@@ -121,13 +122,24 @@ export default [
       "react/no-unknown-property": 0,
       "@next/next/no-img-element": 0,
       "no-restricted-imports": [
-        "warn",
+        "error",
         {
           patterns: ["../**"],
         },
       ],
     },
   },
+  // Settings
+  {
+    settings: {
+      "import/resolver": {
+        typescript: {
+          directory: "./tsconfig.json",
+        },
+      },
+    },
+  },
+
   // Ignore files
   {
     ignores: [

@@ -1,8 +1,8 @@
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
 import { RelatedTaskModel, UserModel } from "@/types/prisma";
-import { GetTodoMembershipsQuery } from "../todo/multiUser/GetTodoMemberships.query";
 import { GetTaskQuery } from "./crudBase/GetTask.query";
+import { GetTodoMembershipsQuery } from "@/features/todo/multiUser/GetTodoMemberships.query";
 
 export const NewTaskAddedNotificationInngest = inngest.createFunction(
   {

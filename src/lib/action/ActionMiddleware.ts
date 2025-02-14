@@ -1,7 +1,7 @@
+import { auth } from "@/lib/auth/helper";
 import { GetCurrentTodo } from "@/utils/todo/getTodo";
 import type { TodoMembershipRole, User } from "@prisma/client";
 import { createMiddleware } from "next-safe-action";
-import { auth } from "../auth/helper";
 import { ActionError } from "./SafeAction";
 
 const getAuthUser = async () => {

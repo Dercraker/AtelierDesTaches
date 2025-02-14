@@ -1,6 +1,6 @@
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
-import { GetUserQuery } from "../user/GetUserQuery";
+import { GetUserQuery } from "@/features/user/GetUserQuery";
 import { GetTodoBySlugQuery } from "./crudBase/GetTodoBySlug.query";
 
 export const RemovedFromTodoNotificationInngest = inngest.createFunction(
@@ -11,39 +11,36 @@ export const RemovedFromTodoNotificationInngest = inngest.createFunction(
     event: "RemovedFromTodoNotification",
   },
   async ({ event, step }) => {
-    const user = await step.run(
-      "GetUserId",
-      async () =>
-        await GetUserQuery({
-          where: {
-            id: event.data.userId,
-          },
-        }),
-    );
+    const user = await step.run("GetUserId", async () => {
+      const user = await GetUserQuery({
+        where: {
+          id: event.data.userId,
+        },
+      });
 
-    const admin = await step.run(
-      "GetAdminId",
-      async () => await GetUserQuery({ where: { id: event.data.adminId } }),
-    );
+      return user;
+    });
 
-    const todo = await step.run(
-      "GetTodoId",
-      async () =>
-        await GetTodoBySlugQuery({
-          where: {
-            slug: event.data.todoSlug,
-          },
-        }),
-    );
+    const admin = await step.run("GetAdminId", async () => {
+      const admin = await GetUserQuery({ where: { id: event.data.adminId } });
+      return admin;
+    });
 
-    await step.run(
-      "SendEmail",
-      async () =>
-        await sendEmail({
-          to: user.email,
-          subject: "Removed from Todo",
-          text: `You have been removed from this todo: ${todo.title} by ${admin.name}`,
-        }),
-    );
+    const todo = await step.run("GetTodoId", async () => {
+      const todo = await GetTodoBySlugQuery({
+        where: {
+          slug: event.data.todoSlug,
+        },
+      });
+      return todo;
+    });
+
+    await step.run("SendEmail", async () => {
+      await sendEmail({
+        to: user.email,
+        subject: "Removed from Todo",
+        text: `You have been removed from this todo: ${todo.title} by ${admin.name}`,
+      });
+    });
   },
 );

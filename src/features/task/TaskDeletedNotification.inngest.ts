@@ -1,8 +1,8 @@
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
-import { GetTodoBySlugQuery } from "../todo/crudBase/GetTodoBySlug.query";
-import { GetTodoMembershipsQuery } from "../todo/multiUser/GetTodoMemberships.query";
-import { GetUserQuery } from "../user/GetUserQuery";
+import { GetTodoBySlugQuery } from "@/features/todo/crudBase/GetTodoBySlug.query";
+import { GetTodoMembershipsQuery } from "@/features/todo/multiUser/GetTodoMemberships.query";
+import { GetUserQuery } from "@/features/user/GetUserQuery";
 
 export const TaskDeletedNotificationInngest = inngest.createFunction(
   {
@@ -13,27 +13,32 @@ export const TaskDeletedNotificationInngest = inngest.createFunction(
   },
   async ({ event, step }) => {
     const user = await step.run("GetUserById", async () => {
-      return await GetUserQuery({
+      const user = await GetUserQuery({
         where: {
           id: event.data.userId,
         },
       });
+
+      return user;
     });
 
     const todo = await step.run("GetTodoById", async () => {
-      return await GetTodoBySlugQuery({
+      const todo = await GetTodoBySlugQuery({
         where: {
           slug: event.data.todoSlug,
         },
       });
+
+      return todo;
     });
 
     const members = await step.run("GetTodoMembers", async () => {
-      return await GetTodoMembershipsQuery({
+      const members = await GetTodoMembershipsQuery({
         where: {
           todoId: todo.id,
         },
       });
+      return members;
     });
 
     await step.run("SendNotificationEmail", async () => {
