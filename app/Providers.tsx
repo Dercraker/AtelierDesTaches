@@ -17,7 +17,6 @@ export const Providers = ({ children }: PropsWithChildren) => {
 
           {children}
         </NuqsAdapter>
-        ;
       </QueryClientProvider>
     </SessionProvider>
   );

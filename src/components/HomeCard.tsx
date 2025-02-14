@@ -7,11 +7,12 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-export default function HomeCardComponent({
-  todo,
-}: {
-  todo: { title: string; description?: string; image?: string };
-}) {
+type HomeCardProps = {
+  title: string;
+  description: string;
+};
+
+export default function HomeCard({ title, description }: HomeCardProps) {
   return (
     <Card sx={{ maxWidth: 345 }} variant="outlined">
       <CardMedia
@@ -22,10 +23,10 @@ export default function HomeCardComponent({
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {todo.title}
+          {title}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {todo.description || "Aucune description disponible."}
+          {description}
         </Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "end" }}>
