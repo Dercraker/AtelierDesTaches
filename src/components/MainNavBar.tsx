@@ -16,7 +16,6 @@ import { useState } from "react";
 
 const pages = [
   { name: "DashBoard", path: "/dashboard" },
-  { name: "Profile", path: "/profile" },
   { name: "Deconnexion", path: "/" },
 ];
 
