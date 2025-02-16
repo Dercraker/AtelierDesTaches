@@ -1,6 +1,11 @@
-import * as z from "zod"
-import { TaskStatus } from "@prisma/client"
-import { CompleteTodo, RelatedTodoModel, CompleteUser, RelatedUserModel } from "./index"
+import * as z from "zod";
+import { TaskStatus } from "@prisma/client";
+import {
+  CompleteTodo,
+  RelatedTodoModel,
+  CompleteUser,
+  RelatedUserModel,
+} from "./index";
 
 export const TaskModel = z.object({
   id: z.string(),
@@ -14,11 +19,11 @@ export const TaskModel = z.object({
   deletedAt: z.date().nullish(),
   todoId: z.string(),
   authorId: z.string(),
-})
+});
 
 export interface CompleteTask extends z.infer<typeof TaskModel> {
-  todo: CompleteTodo
-  author: CompleteUser
+  todo: CompleteTodo;
+  author: CompleteUser;
 }
 
 /**
@@ -26,7 +31,9 @@ export interface CompleteTask extends z.infer<typeof TaskModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedTaskModel: z.ZodSchema<CompleteTask> = z.lazy(() => TaskModel.extend({
-  todo: RelatedTodoModel,
-  author: RelatedUserModel,
-}))
+export const RelatedTaskModel: z.ZodSchema<CompleteTask> = z.lazy(() =>
+  TaskModel.extend({
+    todo: RelatedTodoModel,
+    author: RelatedUserModel,
+  }),
+);

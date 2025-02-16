@@ -38,7 +38,7 @@ body {
   background-color: #d3d0d0;
 }
 
-.btn-home-card {
+.btn-primary {
   font-size: 16px;
   padding: 6px 12px;
   line-height: 1.5rem;
@@ -47,20 +47,46 @@ body {
   border-radius: 4px;
 }
 
-.btn-home-card:hover {
+.btn-primary:hover {
   background-color: #ffff;
   border: 1px solid #ea642a;
   color: #ea642a;
 }
 
-.btn-home-card:active {
+.btn-primary:active {
   background-color: #f29a75;
   color: #333333;
 }
 
-.btn-home-card:focus {
+.btn-primary:focus {
   background-color: #f29a75;
   color: #333333;
+}
+
+.btn-outlined {
+  font-size: 16px;
+  padding: 6px 12px;
+  line-height: 1.5rem;
+  border: 1px solid #ea642a;
+  background-color: #ffff;
+  color: "#ea642a";
+  border-radius: 4px;
+}
+
+.btn-outlined:hover {
+  border: none;
+  background-color: #fadacd;
+  color: "#333333";
+}
+
+.btn-outlined:active {
+  background-color: #f29a75;
+  color: "#333333";
+}
+
+.btn-outlined:focus {
+  background-color: #f29a75;
+  color: "#333333";
 }
 
 .MuiChip-icon {

@@ -4,6 +4,35 @@ import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 import { GetServerUrl } from "../../../../src/utils/server-url";
+import { styled } from "@mui/material/styles";
+
+const PrimaryButton = styled(Button)({
+  boxShadow: "none",
+  textTransform: "none",
+  fontSize: 16,
+  padding: "6px 12px",
+  border: "none",
+  lineHeight: 1.5,
+  backgroundColor: "#ea642a",
+  color: "#ffffff",
+  "&:hover": {
+    backgroundColor: "#ffffff",
+    border: "1px solid",
+    borderColor: "#ea642a",
+    color: "#ea642a",
+    boxShadow: "none",
+  },
+  "&:active": {
+    boxShadow: "none",
+    backgroundColor: "#f29a75",
+    color: "#333333",
+  },
+  "&:focus": {
+    boxShadow: "none",
+    backgroundColor: "#f29a75",
+    color: "#333333",
+  },
+});
 
 // ℹ️ Update this object with the providers you want to support
 const ProviderData: Record<string, { icon: ReactNode; name: string }> = {
@@ -46,13 +75,9 @@ export const ProviderButton = (props: ProviderButtonProps) => {
   const data = ProviderData[props.providerId];
 
   return (
-    <Button
-      className="border-gray-500 bg-black text-white hover:bg-gray-950"
-      onClick={() => login()}
-      loading={isPending}
-    >
+    <PrimaryButton onClick={() => login()} loading={isPending}>
       {!isPending && data.icon}
       Sign in with {data.name}
-    </Button>
+    </PrimaryButton>
   );
 };
