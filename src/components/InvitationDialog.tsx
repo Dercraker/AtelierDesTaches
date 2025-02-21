@@ -24,10 +24,9 @@ const OutlinedButton = styled(Button)({
   backgroundColor: "#ffffff",
   color: "#ea642a",
   "&:hover": {
-    backgroundColor: "#ffffff",
-    border: "1px solid",
-    borderColor: "#ea642a",
-    color: "#ea642a",
+    backgroundColor: "#fadacd",
+    border: "none",
+    color: "#333333",
     boxShadow: "none",
   },
   "&:active": {

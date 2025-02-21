@@ -68,7 +68,7 @@ export default function HomeCard({
         </Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "end" }}>
-        <Link className="btn-home-card" href={"/todos/currentTodoSlug"}>
+        <Link className="btn-primary" href={"/todos/currentTodoSlug"}>
           Voir la To do list
         </Link>
       </CardActions>
