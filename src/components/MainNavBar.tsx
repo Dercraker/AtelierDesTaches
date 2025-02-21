@@ -17,8 +17,7 @@ import { useRouter } from "next/navigation";
 
 const pages = [
   { name: "DashBoard", path: "/dashboard" },
-  { name: "Profile", path: "/profile" },
-  { name: "Déconnexion" },
+  { name: "Déconnexion", path: "/" },
 ];
 
 const OutlinedButton = styled(Button)({
