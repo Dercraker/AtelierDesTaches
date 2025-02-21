@@ -1,22 +1,21 @@
 "use server";
 
-import { todoAction } from "@/lib/action/SafeAction";
+import { authAction } from "@/lib/action/SafeAction";
 import { TodoMembershipRole } from "@prisma/client";
 import { z } from "zod";
 import { AddUserOnTodoQuery } from "./AddUserOnTodo.query";
 
 const AddUserOnTodoActionSchema = z.object({
-  roles: z.array(z.nativeEnum(TodoMembershipRole)).optional(),
+  todoSlug: z.string()
 });
 
-export const AddUserOnTodoAction = todoAction
+export const AddUserOnTodoAction = authAction
   .schema(AddUserOnTodoActionSchema)
-  .action(async ({ parsedInput: { roles }, ctx }) => {
+  .action(async ({ parsedInput: { todoSlug }, ctx }) => {
     const todo = await AddUserOnTodoQuery({
       userId: ctx.user.id,
-      roles,
       where: {
-        slug: ctx.todo.slug,
+        slug: todoSlug
       },
     });
 

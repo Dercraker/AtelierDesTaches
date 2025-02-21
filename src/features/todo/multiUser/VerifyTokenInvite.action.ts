@@ -1,11 +1,11 @@
 "use server";
 
+import { GetTodoBySlugQuery } from "@/features/todo/crudBase/GetTodoBySlug.query";
+import { GetUserQuery } from "@/features/user/GetUserQuery";
 import { authAction } from "@/lib/action/SafeAction";
+import { InvitationTokenDataSchema } from "@/types/invitationTokenData.schema";
 import { z } from "zod";
 import { GetTokenInviteQuery } from "./GetVerificationToken.query";
-import { GetUserQuery } from "@/features/user/GetUserQuery";
-import { GetTodoBySlugQuery } from "@/features/todo/crudBase/GetTodoBySlug.query";
-import { InvitationTokenDataSchema } from "@/types/invitationTokenData.schema";
 
 const VerifyTokenSchema = z.object({
   token: z.string().min(10), 
@@ -50,6 +50,7 @@ export const VerifyTokenAction = authAction
 
     return {
       todoTitle: todo.title,
+      todoSlug: todo.slug,
       invitedBy: ownerUser.name,
       invitedUser: invitedUser.name,
     };

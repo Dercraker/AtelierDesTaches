@@ -1,6 +1,6 @@
 "use server";
 
-import { authAction } from "@/lib/action/SafeAction";
+import { todoAction } from "@/lib/action/SafeAction";
 import { VerificationTokenModel } from "@/types/prisma";
 import { addDays } from "date-fns";
 import { nanoid } from "nanoid";
@@ -12,7 +12,7 @@ const CreateVerifyTokenSchema = z.object({
   todoId: z.string().uuid(),
 });
 
-export const CreateVerifyTokenAction = authAction
+export const CreateVerifyTokenAction = todoAction
   .schema(CreateVerifyTokenSchema)
   .action(async ({ parsedInput: { invitedUserId, todoId }, ctx }) => {
     const token = nanoid(32);
