@@ -24,6 +24,7 @@ export default [
       },
     },
   },
+
   // Typescript
   ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
@@ -42,6 +43,7 @@ export default [
     ignores: [".next/"],
   },
   ...fixupConfigRules(compat.extends("plugin:@next/next/core-web-vitals")),
+
   // Rules config
   {
     rules: {
@@ -127,6 +129,17 @@ export default [
       ],
     },
   },
+  // Settings
+  {
+    settings: {
+      "import/resolver": {
+        typescript: {
+          directory: "./tsconfig.json",
+        },
+      },
+    },
+  },
+
   // Ignore files
   {
     ignores: [

@@ -1,21 +1,20 @@
 {
   "name": "atelier-des-taches",
-  "version": "0.6.0",
+  "version": "0.8.0",
   "private": true,
   "scripts": {
     "migrate": "prisma generate & prisma migrate dev",
     "seed": "pnpx prisma db seed",
     "dev": "next dev --turbopack",
+    "build": "next build",
+    "clean": "next lint --fix && tsc --noEmit && prettier --write .",
+    "inngestDev": "docker run --name InngestDev --rm -p 8288:8288 inngest/inngest inngest dev -u http://host.docker.internal:3000/api/inngest",
     "patch": "pnpm version patch --force --no-git-tag-version",
     "minor": "pnpm version minor --force --no-git-tag-version",
     "prerelease": "pnpm version prerelease --force --no-git-tag-version",
     "major": "pnpm version major --force --no-git-tag-version",
-    "build": "next build",
-    "start": "next start",
-    "ts": "tsc --noEmit",
     "postinstall": "prisma generate",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
-    "clean": "next lint --fix && tsc --noEmit && prettier --write .",
     "knip": "knip"
   },
   "dependencies": {
@@ -40,6 +39,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-tailwindcss": "^3.18.0",
     "globals": "^15.14.0",
+    "inngest": "^3.31.7",
     "knip": "^5.43.6",
     "nanoid": "^5.0.9",
     "next": "15.1.6",
@@ -61,6 +61,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@faker-js/faker": "^9.5.0",
+    "@inngest/eslint-plugin": "^0.0.7",
     "@tanstack/eslint-plugin-query": "^5.66.0",
     "@types/node": "^22.13.0",
     "@types/react": "^19",
@@ -77,6 +78,6 @@
     "zod-prisma": "^0.5.4"
   },
   "prisma": {
-    "seed": "pnpx ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed/seed.ts"
+    "seed": "pnpm tsx prisma/seed/seed.ts"
   }
 }
