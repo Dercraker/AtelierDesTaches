@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Typography, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { VerifyTokenAction } from "@/features/todo/multiUser/VerifyTokenInvite.action";
+import { AddUserOnTodoAction } from "@/features/todo/multiUser/AddUserOnTodo.action";
+import { isActionSuccessful } from "@/lib/action/ActionUtils";
 
 const PrimaryButton = styled(Button)({
   boxShadow: "none",
@@ -27,68 +30,55 @@ export default function VerifyTokenPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const [todoTitle, setTodoTitle] = useState("");
-  const [invitedBy, setInvitedBy] = useState("");
-  const [invitedUser, setInvitedUser] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (!token) return;
+  if (!token) {
+    return (
+      <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
+        <Typography color="error">Token invalide</Typography>
+      </Box>
+    );
+  }
 
-    const fetchTokenDetails = async () => {
-      try {
-        const res = await fetch("/api/verify-token", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token }),
-        });
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["verifyToken", token],
+    queryFn: async () => {
+      const result = await VerifyTokenAction({ token });
+      if (!isActionSuccessful(result)) throw new Error(result?.serverError);
+      return result.data;
+    },
+    enabled: !!token,
+  });
 
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error);
+  if(!data){
+    return (
+      <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
+        <Typography color="error">Token invalide</Typography>
+      </Box>
+    );
+  }
 
-        setTodoTitle(data.todoTitle);
-        setInvitedBy(data.invitedBy);
-        setInvitedUser(data.invitedUser);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Une erreur inconnue s'est produite.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const result = await AddUserOnTodoAction({ todoSlug: data.todoSlug });
+      if (!isActionSuccessful(result)) throw new Error(result?.serverError);
+      return result.data;
+    },
+    onSuccess: () => router.push(`/dashboard/todo/${data.todoSlug}`),
+    onError: (err) => console.error(err),
+  });
 
-    fetchTokenDetails();
-  }, [token]);
-
-  const handleAction = async (accept: boolean) => {
-    try {
-      const res = await fetch("/api/respond-invite", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, accept }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-
-      router.push("/dashboard");
-    } catch (err) {
-      setError(err as Error);
-    }
-  };
-
-  if (loading) return <Typography>Chargement...</Typography>;
-  if (error) return <Typography color="error">{error}</Typography>;
+  if (isLoading) return <Typography>Chargement...</Typography>;
+  if (error) return <Typography color="error">{error.message}</Typography>;
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
       <Typography variant="h6" gutterBottom>
-        {invitedUser} à été invité à rejoindre la todo "{todoTitle}" par {invitedBy}
+        {data.invitedUser} a été invité à rejoindre la todo "{data.todoTitle}" par {data.invitedBy}
       </Typography>
-      <PrimaryButton onClick={() => handleAction(true)} sx={{ mt: 2 }}>
+      <PrimaryButton onClick={() => mutation.mutate()} sx={{ mt: 2 }}>
         Rejoindre
       </PrimaryButton>
-      <Button onClick={() => handleAction(false)} sx={{ mt: 2 }}>
+      <Button onClick={() => router.push("/dashboard")} sx={{ mt: 2 }}>
         Refuser
       </Button>
     </Box>
