@@ -1,11 +1,11 @@
 "use server";
 
 import { authAction } from "@/lib/action/SafeAction";
-import { prisma } from "@/lib/prisma";
 import { VerificationTokenModel } from "@/types/prisma";
 import { addDays } from "date-fns";
 import { nanoid } from "nanoid";
 import { z } from "zod";
+import { CreateTokenInviteQuery } from "./CreateTokenInvite.query";
 
 const CreateVerifyTokenSchema = z.object({
   invitedUserId: z.string().uuid(),
@@ -15,20 +15,19 @@ const CreateVerifyTokenSchema = z.object({
 export const CreateVerifyTokenAction = authAction
   .schema(CreateVerifyTokenSchema)
   .action(async ({ parsedInput: { invitedUserId, todoId }, ctx }) => {
-
     const token = nanoid(32);
-    const expirationDate = addDays(new Date(), 7); 
+    const expirationDate = addDays(new Date(), 7);
 
-    const verificationToken = await prisma.verificationToken.create({
+    const verificationToken = await CreateTokenInviteQuery({
       data: {
         identifier: invitedUserId,
         token: token,
         expires: expirationDate,
         data: {
           todoId: todoId,
-          invitedBy: ctx.user.id, 
+          invitedBy: ctx.user.id,
           invitedUserId: invitedUserId,
-          context: "TODO INVITATION",
+          todoInvitation: true,
         },
       },
     });
