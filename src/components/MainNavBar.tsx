@@ -10,14 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useMutation } from "@tanstack/react-query";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const pages = [
   { name: "DashBoard", path: "/dashboard" },
   { name: "Profile", path: "/profile" },
-  { name: "Deconnexion", path: "/" },
+  {
+    name: "Deconnexion",
+  },
 ];
 
 const OutlinedButton = styled(Button)({
@@ -31,17 +34,24 @@ const OutlinedButton = styled(Button)({
   backgroundColor: "#ea642a",
   color: "#ffffff",
   "&:hover": {
-    backgroundColor: "#ffffff",
-    border: "1px solid",
-    borderColor: "#ea642a",
-    color: "#ea642a",
+    backgroundColor: "#fadacd",
+    border: "none",
+    color: "#333333",
     boxShadow: "none",
   },
 });
 
 export default function MainNavBar() {
-  const [alreadyLog, setAlreadyLog] = useState(true);
   const router = useRouter();
+  const session = useSession();
+  const { mutate: logout } = useMutation({
+    mutationFn: async () => {
+      signOut({
+        redirect: false,
+        redirectTo: "/",
+      });
+    },
+  });
 
   return (
     <AppBar
@@ -60,7 +70,7 @@ export default function MainNavBar() {
             variant="h6"
             noWrap
             component="a"
-            href={alreadyLog ? "/dashboard" : "/"}
+            href={session.status === "authenticated" ? "/dashboard" : "/"}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -77,11 +87,11 @@ export default function MainNavBar() {
         </div>
 
         <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-          {alreadyLog &&
+          {session.status === "authenticated" &&
             pages.map((page) => (
               <Button
                 key={page.name}
-                onClick={() => router.push(page.path)}
+                onClick={() => (page.path ? router.push(page.path) : logout())}
                 sx={{ mx: 2, my: 2, color: "white", display: "block" }}
               >
                 {page.name}
@@ -90,12 +100,15 @@ export default function MainNavBar() {
         </Box>
 
         <Box sx={{ flexGrow: 0 }}>
-          {alreadyLog ? (
+          {session.status === "authenticated" ? (
             <IconButton sx={{ p: 0 }}>
-              <Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
+              <Avatar
+                alt={session.data.user?.name ?? "User"}
+                src={session.data.user?.image ?? undefined}
+              />
             </IconButton>
           ) : (
-            <OutlinedButton onClick={() => setAlreadyLog(true)}>
+            <OutlinedButton onClick={() => router.push("/auth/signin")}>
               Se connecter
             </OutlinedButton>
           )}

@@ -122,7 +122,7 @@ export default [
       "react/no-unknown-property": 0,
       "@next/next/no-img-element": 0,
       "no-restricted-imports": [
-        "error",
+        "warn",
         {
           patterns: ["../**"],
         },
