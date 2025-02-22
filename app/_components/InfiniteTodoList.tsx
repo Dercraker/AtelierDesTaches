@@ -61,6 +61,7 @@ export const InfiniteTodoList = () => {
             return (
               <HomeCard
                 key={slug}
+                slug={slug}
                 title={title}
                 description={description ?? undefined}
                 isLog={session.status === "authenticated"}

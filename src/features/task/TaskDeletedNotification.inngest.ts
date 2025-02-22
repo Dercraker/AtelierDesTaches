@@ -1,8 +1,8 @@
-import { inngest } from "@/lib/inngest/InngestClient";
-import { sendEmail } from "@/lib/mail/sendEmail";
 import { GetTodoBySlugQuery } from "@/features/todo/crudBase/GetTodoBySlug.query";
 import { GetTodoMembershipsQuery } from "@/features/todo/multiUser/GetTodoMemberships.query";
-import { GetUserQuery } from "@/features/user/GetUserQuery";
+import { GetUserQuery } from "@/features/user/GetUser.query";
+import { inngest } from "@/lib/inngest/InngestClient";
+import { sendEmail } from "@/lib/mail/sendEmail";
 
 export const TaskDeletedNotificationInngest = inngest.createFunction(
   {

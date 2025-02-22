@@ -21,12 +21,6 @@ export const GetPaginatedTodosAction = action
   .schema(GetPaginatedTodosActionSchema)
   .action(
     async ({ parsedInput: { where, lastTodoSlug, take, includePrivate } }) => {
-      console.log("🚀 ~ { where, lastTodoSlug, take, includePrivate }:", {
-        where,
-        lastTodoSlug,
-        take,
-        includePrivate,
-      });
       const todos = await GetPaginatedTodosQuery({
         where: {
           ...where,
@@ -58,7 +52,6 @@ export const GetPaginatedTodosAction = action
           : {}),
         take,
       });
-      console.log("🚀 ~ todos:", todos);
       return todos;
     },
   );

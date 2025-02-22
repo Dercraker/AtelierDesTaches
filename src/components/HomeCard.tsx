@@ -3,13 +3,14 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Typography,
   Chip,
+  Typography,
 } from "@mui/material";
 import Link from "next/link";
 
 type HomeCardProps = {
   title: string;
+  slug: string;
   isLog: boolean;
   isOwner: boolean;
   isPublic: boolean;
@@ -22,6 +23,7 @@ export default function HomeCard({
   isLog,
   isOwner,
   isPublic,
+  slug,
 }: HomeCardProps) {
   return (
     <Card sx={{ maxWidth: 345 }} variant="outlined">
@@ -68,7 +70,7 @@ export default function HomeCard({
         </Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "end" }}>
-        <Link className="btn-primary" href={"/todos/currentTodoSlug"}>
+        <Link className="btn-primary" href={`/todos/${slug}`}>
           Voir la To do list
         </Link>
       </CardActions>

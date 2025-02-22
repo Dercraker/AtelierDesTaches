@@ -9,8 +9,6 @@ export const SignInProviders = () => {
       fetch(`/api/auth/providers`).then(async (res) => res.json()),
     queryKey: ["providers"],
   });
-  console.log("🚀 ~ SignInProviders ~ providers:", providers);
-
   if (isPending) return <>Loading....</>;
 
   return (

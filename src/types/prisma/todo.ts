@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { TodoState } from "@prisma/client";
 import {
   CompleteTask,
   RelatedTaskModel,

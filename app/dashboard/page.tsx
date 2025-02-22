@@ -1,10 +1,15 @@
 "use client";
 
-import HomeCard from "@/components/HomeCard";
 import AddAndUpdateTodoDialog from "@/components/AddAndUpdateTodoDialog";
+import HomeCard from "@/components/HomeCard";
+import { GetUserTodosAction } from "@/features/todos/GetUserTodos.action";
+import { isActionSuccessful } from "@/lib/action/ActionUtils";
 import AddIcon from "@mui/icons-material/Add";
 import { Button, Divider, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 const PrimaryButton = styled(Button)({
@@ -35,55 +40,26 @@ const PrimaryButton = styled(Button)({
   },
 });
 
-const cardData = [
-  {
-    id: 1,
-    title: "Tâche 1",
-    description: "Description de la tâche 1",
-    isLog: true,
-    isOwner: true,
-    isPublic: false,
-  },
-  {
-    id: 2,
-    title: "Tâche 2",
-    description: "Description de la tâche 2",
-    isLog: true,
-    isOwner: false,
-    isPublic: true,
-  },
-  {
-    id: 3,
-    title: "Tâche 3",
-    description: "Description de la tâche 3",
-    isLog: true,
-    isOwner: true,
-    isPublic: false,
-  },
-  {
-    id: 4,
-    title: "Tâche 4",
-    description: "Description de la tâche 4",
-    isLog: true,
-    isOwner: false,
-    isPublic: true,
-  },
-  {
-    id: 5,
-    title: "Tâche 5",
-    description: "Description de la tâche 5",
-    isLog: true,
-    isOwner: true,
-    isPublic: false,
-  },
-];
-
 export default function Home() {
   const [open, setOpen] = useState(false);
+  const { todoSlug } = useParams();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const session = useSession();
+
+  const { data: cardData } = useQuery({
+    queryKey: ["Dashboard", session.data?.user?.id, "Todos"],
+    queryFn: async () => {
+      const result = await GetUserTodosAction({});
+
+      if (!isActionSuccessful(result)) throw new Error("failed");
+
+      return result.data;
+    },
+  });
 
   return (
     <div className="flex flex-col gap-6">
@@ -98,16 +74,19 @@ export default function Home() {
         Ajouter une tâche
       </PrimaryButton>
       <div className="grid grid-cols-3 gap-4">
-        {cardData.map((card) => (
-          <HomeCard
-            key={card.id}
-            title={card.title}
-            description={card.description}
-            isLog={card.isLog}
-            isOwner={card.isOwner}
-            isPublic={card.isPublic}
-          />
-        ))}
+        {cardData?.length
+          ? cardData.map((card) => (
+              <HomeCard
+                key={card.id}
+                slug={card.slug}
+                title={card.title}
+                description={card.description ?? undefined}
+                isLog={session.status === "authenticated"}
+                isOwner={true}
+                isPublic={true}
+              />
+            ))
+          : "Aucune task"}
       </div>
     </div>
   );

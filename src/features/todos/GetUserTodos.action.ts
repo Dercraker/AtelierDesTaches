@@ -32,5 +32,5 @@ export const GetUserTodosAction = authAction
       take,
     });
 
-    z.array(TodoModel).parse(todos);
+    return z.array(TodoModel).parse(todos);
   });

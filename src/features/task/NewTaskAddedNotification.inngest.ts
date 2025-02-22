@@ -1,8 +1,7 @@
+import { GetTodoMembershipsQuery } from "@/features/todo/multiUser/GetTodoMemberships.query";
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
-import { RelatedTaskModel, UserModel } from "@/types/prisma";
 import { GetTaskQuery } from "./crudBase/GetTask.query";
-import { GetTodoMembershipsQuery } from "@/features/todo/multiUser/GetTodoMemberships.query";
 
 export const NewTaskAddedNotificationInngest = inngest.createFunction(
   {
@@ -23,29 +22,29 @@ export const NewTaskAddedNotificationInngest = inngest.createFunction(
         },
       });
 
-      return RelatedTaskModel.parse(task);
+      return task;
     });
 
     const members = await step.run("GetMemberToNotify", async () => {
       const memberShips = await GetTodoMembershipsQuery({
         where: {
-          todoId: task.todoId,
+          todoId: task?.todoId,
         },
         include: {
           user: true,
         },
       });
 
-      return memberShips.map((m) => UserModel.parse(m.user));
+      return memberShips;
     });
 
     await step.run("sendNotificationEmail", async () => {
-      const emails = members.map((m) => m.email);
+      const emails = members.map((m) => m.user.email);
 
       await sendEmail({
         to: emails,
-        subject: `New task added to ${task.todo.title}`,
-        text: `The Task: '${task.title}', as been added to : ${task.todo.title}, by ${task.author.name}`,
+        subject: `New task added to ${task?.todo.title}`,
+        text: `The Task: '${task?.title}', as been added to : ${task?.todo.title}, by ${task?.author.name}`,
       });
     });
   },
