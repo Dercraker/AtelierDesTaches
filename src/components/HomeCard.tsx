@@ -3,8 +3,8 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Typography,
   Chip,
+  Typography,
 } from "@mui/material";
 import Link from "next/link";
 
@@ -28,7 +28,7 @@ export default function HomeCard({
       <CardMedia
         component="img"
         height="140"
-        image={"https://via.placeholder.com/345x140"}
+        image={"image.png"}
         alt={title}
       />
       <CardContent>
