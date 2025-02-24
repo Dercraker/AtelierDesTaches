@@ -86,7 +86,7 @@ export default function Home() {
                 isPublic={true}
               />
             ))
-          : "Aucune task"}
+          : "Aucune To Do List"}
       </div>
     </div>
   );
