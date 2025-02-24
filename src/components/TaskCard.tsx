@@ -20,8 +20,8 @@ import { useState } from "react";
 
 type TaskCardProps = {
   title: string;
-  description: string;
-  dueDate: Date;
+  description?: string;
+  dueDate?: Date;
 };
 
 const statusMapping: Record<
@@ -46,7 +46,7 @@ export default function TaskCard({
   description,
   dueDate,
 }: TaskCardProps) {
-  const dateString = dueDate.toLocaleDateString("fr-FR");
+  const dateString = dueDate?.toLocaleDateString("fr-FR");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedComponent, setSelectedComponent] =
     useState<React.ReactNode>(null);

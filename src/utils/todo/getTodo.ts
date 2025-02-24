@@ -27,6 +27,7 @@ export const GetCurrentTodo = async ({
 }: {
   roles?: TodoMembershipRole[];
 }) => {
+  console.log("🚀 ~ roles:", roles);
   const todoSlug = await GetTodoSlugFromUrl();
   const user = await requiredAuth();
 

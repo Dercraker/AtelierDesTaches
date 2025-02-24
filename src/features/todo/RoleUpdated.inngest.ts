@@ -1,6 +1,6 @@
+import { GetUserQuery } from "@/features/user/GetUser.query";
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
-import { GetUserQuery } from "@/features/user/GetUserQuery";
 import { GetTodoBySlugQuery } from "./crudBase/GetTodoBySlug.query";
 import { GetTodoMembershipQuery } from "./multiUser/GetTodoMembership.query";
 
@@ -54,7 +54,7 @@ export const RoleUpdatedInngest = inngest.createFunction(
       sendEmail({
         to: user.email,
         subject: `Role Updated in todo : ${todo.title}`,
-        text: `Your role has been updated in the todo: ${todo.title}, by ${admin.name}. You now have these roles ${memberShip.roles.join(", ")}`,
+        text: `Your role has been updated in the todo: ${todo.title}, by ${admin.name}. You now have these roles ${memberShip?.roles.join(", ")}`,
       }),
     );
   },

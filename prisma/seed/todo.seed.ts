@@ -15,6 +15,7 @@ const GenerateAddTodoQuery = () => {
     title,
     slug,
     description: faker.commerce.productDescription(),
+    state: faker.datatype.boolean(0.7) ? "PUBLIC" : "PRIVATE",
   } satisfies Prisma.TodoCreateInput;
 };
 

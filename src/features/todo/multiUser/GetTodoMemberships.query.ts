@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { RelatedTodoMembershipModel } from "@/types/prisma";
 import type { Prisma } from "@prisma/client";
 
 type GetTodoMembershipQueryProps = {
@@ -23,5 +22,5 @@ export const GetTodoMembershipsQuery = async ({
     },
   });
 
-  return todoMembership.map((m) => RelatedTodoMembershipModel.parse(m));
+  return todoMembership;
 };

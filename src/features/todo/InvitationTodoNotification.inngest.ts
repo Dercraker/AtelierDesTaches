@@ -1,4 +1,4 @@
-import { GetUserQuery } from "@/features/user/GetUserQuery";
+import { GetUserQuery } from "@/features/user/GetUser.query";
 import { inngest } from "@/lib/inngest/InngestClient";
 import { sendEmail } from "@/lib/mail/sendEmail";
 import { GetTodoBySlugQuery } from "./crudBase/GetTodoBySlug.query";

@@ -1,8 +1,8 @@
+import { AuthError } from "@/lib/auth/helper";
+import { logger } from "@/lib/logger";
 import { TodoMembershipRole } from "@prisma/client";
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
-import { AuthError } from "@/lib/auth/helper";
-import { logger } from "@/lib/logger";
 import { AuthMiddleware, TodoMiddleware } from "./ActionMiddleware";
 
 export class ActionError extends Error {}
@@ -42,7 +42,7 @@ export const todoAction = createSafeActionClient({
   defineMetadataSchema() {
     return z
       .object({
-        roles: z.array(z.nativeEnum(TodoMembershipRole)),
+        roles: z.array(z.nativeEnum(TodoMembershipRole)).optional(),
       })
       .optional();
   },

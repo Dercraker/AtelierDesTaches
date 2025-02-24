@@ -1,7 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { TodoModel } from "@/types/prisma";
 import type { Prisma } from "@prisma/client";
-import { z } from "zod";
 
 type GetPaginatedTodosProps = {
   where?: Prisma.TodoWhereInput;
@@ -17,12 +15,17 @@ export const GetPaginatedTodosQuery = async ({
   const todos = await prisma.todo.findMany({
     where: {
       deletedAt: null,
+      state: "PUBLIC",
       ...where,
     },
     ...(cursor ? { skip: 1 } : {}),
     cursor,
     take,
+    include: {
+      members: true,
+      tasks: false,
+    },
   });
 
-  return z.array(TodoModel).parse(todos);
+  return todos;
 };

@@ -30,7 +30,7 @@ export const AuthMiddleware = createMiddleware().define(async ({ next }) => {
 
 export const TodoMiddleware = createMiddleware<{
   ctx: { user: User };
-  metadata?: { roles: TodoMembershipRole[] };
+  metadata?: { roles: TodoMembershipRole[] | undefined };
 }>().define(async ({ next, metadata: { roles } }) => {
   try {
     const todo = await GetCurrentTodo({ roles });

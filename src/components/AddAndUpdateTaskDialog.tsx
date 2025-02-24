@@ -1,5 +1,8 @@
 "use client";
 
+import { AddTaskOnTodoAction } from "@/features/task/crudBase/addTaskOnTodo.action";
+import { isActionSuccessful } from "@/lib/action/ActionUtils";
+import { inngest } from "@/lib/inngest/InngestClient";
 import {
   Button,
   Dialog,
@@ -9,6 +12,9 @@ import {
   TextField,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { parseISO } from "date-fns";
+import { useParams } from "next/navigation";
 
 const OutlinedButton = styled(Button)({
   boxShadow: "none",
@@ -75,6 +81,35 @@ export default function AddAndUpdateTaskDialog({
   open,
   handleClose,
 }: AddTaskDialogProps) {
+  const { todoSlug } = useParams();
+  const queryClient = useQueryClient();
+
+  const { mutate: addTask } = useMutation({
+    mutationFn: async (formJson: Record<string, string>) => {
+      const result = await AddTaskOnTodoAction({
+        title: formJson.title,
+        description: formJson.description,
+        dueDate: parseISO(formJson.dueDate),
+        todoSlug: todoSlug as string,
+      });
+      console.log("🚀 ~ mutationFn: ~ result:", result);
+      console.log("🚀 ~ mutationFn: ~ result:", result?.serverError);
+
+      if (!isActionSuccessful(result)) throw new Error("Add task failed");
+
+      return result.data;
+    },
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({ queryKey: ["Todos", todoSlug, "Tasks"] });
+      inngest.send({
+        name: "NewTaskAddedNotification",
+        data: {
+          taskId: data.id,
+        },
+      });
+    },
+  });
+
   return (
     <Dialog
       fullWidth
@@ -91,6 +126,7 @@ export default function AddAndUpdateTaskDialog({
             string
           >;
           const email = formJson.email;
+          addTask(formJson);
           handleClose();
         },
       }}
@@ -127,8 +163,8 @@ export default function AddAndUpdateTaskDialog({
             <span>Date d'échéance</span>
             <TextField
               margin="none"
-              id="due-date"
-              name="due-date"
+              id="dueDate"
+              name="dueDate"
               variant="outlined"
               fullWidth
               type="date"

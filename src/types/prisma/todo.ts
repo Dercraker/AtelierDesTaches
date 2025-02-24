@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { TodoState } from "@prisma/client";
 import {
   CompleteTask,
   RelatedTaskModel,
@@ -9,6 +10,7 @@ import {
 export const TodoModel = z.object({
   id: z.string(),
   slug: z.string(),
+  state: z.nativeEnum(TodoState),
   title: z.string(),
   description: z.string().nullish(),
   createdAt: z.date(),

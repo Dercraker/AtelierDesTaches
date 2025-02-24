@@ -1,12 +1,19 @@
 "use client";
-
 import AddAndUpdateTaskDialog from "@/components/AddAndUpdateTaskDialog";
 import TaskCard from "@/components/TaskCard";
 import TodoCard from "@/components/TodoCard";
+import { GetManyTaskAction } from "@/features/task/crudBase/GetManyTask.action";
+import { GetTodoBySlugAction } from "@/features/todo/crudBase/getTodoBySlug.action";
+import { GetTodoMemberShipByUserIdAndTodoSlugAction } from "@/features/todo/multiUser/GetTodoMemberShipByUserIdAndTodoSlug.action";
+import { isActionSuccessful } from "@/lib/action/ActionUtils";
+import { logger } from "@/lib/logger";
 import AddIcon from "@mui/icons-material/Add";
 import { Button, Divider, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useParams } from "next/navigation";
+import { useMemo, useState } from "react";
 
 const PrimaryButton = styled(Button)({
   boxShadow: "none",
@@ -36,53 +43,67 @@ const PrimaryButton = styled(Button)({
   },
 });
 
-export default function TodoPage() {
+const TodoPage = () => {
+  const session = useSession();
+
+  const { todoSlug } = useParams();
+
+  if (!todoSlug) throw new Error("invalid slug");
+
   const [open, setOpen] = useState(false);
 
-  type Task = {
-    id: number;
-    title: string;
-    description: string;
-    dueDate: Date;
-  };
+  const { data: tasks } = useQuery({
+    queryKey: ["Todos", todoSlug, "Tasks"],
+    queryFn: async () => {
+      const result = await GetManyTaskAction({
+        todoSlug: todoSlug as string,
+      });
 
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: 1,
-      title: "Faire les courses",
-      description: "Acheter des fruits, légumes et du pain.",
-      dueDate: new Date("2025-02-14T09:00:00"),
+      if (!isActionSuccessful(result)) {
+        logger.error(result?.serverError);
+        return;
+      }
+
+      return result?.data;
     },
-    {
-      id: 2,
-      title: "Réunion avec l'équipe",
-      description: "Discuter des prochaines étapes du projet.",
-      dueDate: new Date("2025-02-15T14:00:00"),
+  });
+
+  const { data: todo } = useQuery({
+    queryKey: ["Todos", todoSlug],
+    queryFn: async () => {
+      const result = await GetTodoBySlugAction({
+        todoSlug: todoSlug as string,
+      });
+
+      if (!isActionSuccessful(result)) throw new Error("failed");
+
+      return result.data;
     },
-    {
-      id: 3,
-      title: "Répondre aux emails",
-      description: "Répondre aux emails en attente de la journée.",
-      dueDate: new Date("2025-02-13T12:00:00"),
+  });
+  const { data: todoMembership } = useQuery({
+    queryKey: ["Todos", todoSlug, "Memberships"],
+    queryFn: async () => {
+      if (!todo || !session.data?.user) return null;
+      const result = await GetTodoMemberShipByUserIdAndTodoSlugAction({
+        todoId: todo?.id as string,
+        userId: session.data?.user?.id as string,
+      });
+
+      if (!isActionSuccessful(result)) throw new Error("failed");
+
+      return result.data;
     },
-    {
-      id: 4,
-      title: "Préparer la présentation",
-      description:
-        "Créer une présentation PowerPoint pour la réunion de demain.",
-      dueDate: new Date("2025-02-14T16:00:00"),
-    },
-    {
-      id: 5,
-      title: "Nettoyer la maison",
-      description: "Passer l'aspirateur et nettoyer les surfaces.",
-      dueDate: new Date("2025-02-16T10:00:00"),
-    },
-  ]);
+    enabled: !!todo && !!session.data?.user,
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const isOwner = useMemo(() => {
+    if (!todoMembership) return false;
+    return todoMembership.roles.includes("OWNER");
+  }, [todoMembership]);
 
   return (
     <div>
@@ -103,13 +124,13 @@ export default function TodoPage() {
             className="flex flex-col gap-6 overflow-auto"
             style={{ height: "calc(100vh - 325px)" }}
           >
-            {tasks.length > 0 ? (
+            {tasks && tasks.length > 0 ? (
               tasks.map((task) => (
                 <TaskCard
                   key={task.id}
                   title={task.title}
-                  description={task.description}
-                  dueDate={task.dueDate}
+                  description={task.description ?? undefined}
+                  dueDate={task.dueDate ?? undefined}
                 />
               ))
             ) : (
@@ -118,9 +139,11 @@ export default function TodoPage() {
           </div>
         </div>
         <div className="flex h-full w-1/2 items-center">
-          <TodoCard isOwner={true} isPublic={false} />
+          <TodoCard isOwner={isOwner} isPublic={todo?.state === "PUBLIC"} />
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default TodoPage;
