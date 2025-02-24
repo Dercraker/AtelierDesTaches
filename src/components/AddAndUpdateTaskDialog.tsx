@@ -2,7 +2,6 @@
 
 import { AddTaskOnTodoAction } from "@/features/task/crudBase/addTaskOnTodo.action";
 import { isActionSuccessful } from "@/lib/action/ActionUtils";
-import { inngest } from "@/lib/inngest/InngestClient";
 import {
   Button,
   Dialog,
@@ -101,12 +100,6 @@ export default function AddAndUpdateTaskDialog({
     },
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries({ queryKey: ["Todos", todoSlug, "Tasks"] });
-      inngest.send({
-        name: "NewTaskAddedNotification",
-        data: {
-          taskId: data.id,
-        },
-      });
     },
   });
 

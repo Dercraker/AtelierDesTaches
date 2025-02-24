@@ -4,6 +4,7 @@ import { authAction } from "@/lib/action/SafeAction";
 import { generateSlug } from "@/utils/format/id";
 import { z } from "zod";
 import { AddTaskOnTodoQuery } from "./addTaskOnTodo.query";
+import { inngest } from "@/lib/inngest/InngestClient";
 
 const AddTaskOnTodoActionSchema = z.object({
   title: z.string(),
@@ -32,6 +33,13 @@ export const AddTaskOnTodoAction = authAction
               slug: todoSlug,
             },
           },
+        },
+      });
+
+      await inngest.send({
+        name: "NewTaskAddedNotification",
+        data: {
+          taskId: task.id,
         },
       });
 
