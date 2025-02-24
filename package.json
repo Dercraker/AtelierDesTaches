@@ -1,6 +1,6 @@
 {
   "name": "atelier-des-taches",
-  "version": "0.8.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "migrate": "prisma generate & prisma migrate dev",
