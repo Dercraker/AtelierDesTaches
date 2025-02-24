@@ -71,7 +71,7 @@ export default function Home() {
         onClick={handleClickOpen}
         style={{ width: "fit-content" }}
       >
-        Ajouter une tâche
+        Créer une To Do List
       </PrimaryButton>
       <div className="grid grid-cols-3 gap-4">
         {cardData?.length
