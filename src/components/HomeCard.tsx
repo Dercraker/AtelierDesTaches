@@ -30,7 +30,7 @@ export default function HomeCard({
       <CardMedia
         component="img"
         height="140"
-        image={"https://via.placeholder.com/345x140"}
+        image={"image.png"}
         alt={title}
       />
       <CardContent>
